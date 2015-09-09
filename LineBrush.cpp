@@ -16,14 +16,14 @@ ImpBrush(pDoc, name)
 {
 }
 
-void LineBrush::BrushBegin(const Point source, const Point target)
 {
 	ImpressionistDoc* pDoc = GetDocument();
 	ImpressionistUI* dlg = pDoc->m_pUI;
 
-	int size = pDoc->getBrushSize();
-
-
+	m_size = pDoc->getSize();
+	m_width = dlg->getLineWidth();
+	m_angle = dlg->getLineAngle();
+	//glPointSize((float)size);
 
 	glPointSize((float)size);
 
@@ -36,16 +36,24 @@ void LineBrush::BrushMove(const Point source, const Point target)
 	ImpressionistUI* dlg = pDoc->m_pUI;
 
 	if (pDoc == NULL) {
-		printf("LineBrush::BrushMove  document is NULL\n");
-		return;
 	}
 
-	glBegin(GL_POINTS);
-	SetColor(source);
+	glMatrixMode(GL_MODELVIEW);
+
+	glPushMatrix();
+
+	glBegin(GL_POLYGON);
+		SetColor(source);
+
+		glVertex2f(target.x - m_size / 2, target.y - m_width / 2);
+		glVertex2f(target.x + m_size / 2, target.y - m_width / 2);
+		glVertex2f(target.x + m_size / 2, target.y + m_width / 2);
+		glVertex2f(target.x - m_size / 2, target.y + m_width / 2);
 
 	glVertex2d(target.x, target.y);
 
 	glEnd();
+	glPopMatrix();
 }
 
 void LineBrush::BrushEnd(const Point source, const Point target)
