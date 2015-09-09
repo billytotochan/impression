@@ -16,16 +16,17 @@ ImpBrush(pDoc, name)
 {
 }
 
+void LineBrush::BrushBegin(const Point source, const Point target)
 {
 	ImpressionistDoc* pDoc = GetDocument();
 	ImpressionistUI* dlg = pDoc->m_pUI;
 
-	m_size = pDoc->getSize();
-	m_width = dlg->getLineWidth();
-	m_angle = dlg->getLineAngle();
-	//glPointSize((float)size);
+	m_size = pDoc->getBrushSize();
+	m_width = dlg->getBrushLineWidth();
+	m_angle = dlg->getBrushLineAngle();
+	//glPointSize((float)m_size);
 
-	glPointSize((float)size);
+	glPointSize((float)m_size);
 
 	BrushMove(source, target);
 }

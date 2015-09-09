@@ -199,41 +199,24 @@ void ImpressionistUI::cb_save_image(Fl_Menu_* o, void* v)
 }
 
 //-------------------------------------------------------------
-// Brings up the paint dialog
+// Brings up the brush dialog
 // This is called by the UI when the brushes menu item
 // is chosen
 //-------------------------------------------------------------
-<<<<<<< HEAD
 void ImpressionistUI::cb_brushes(Fl_Menu_* o, void* v)
 {
 	whoami(o)->m_brushDialog->show();
 }
 
-//-------------------------------------------------------------
-// Brings up the color selector
-// This is called by the UI when the colors menu item
-// is chosen
-//-------------------------------------------------------------
 void ImpressionistUI::cb_colors(Fl_Menu_* o, void* v)
 {
 	whoami(o)->m_colorSelector->show();
 }
 
-//-------------------------------------------------------------
-// Brings up the paintly dialog
-// This is called by the UI when the paintly menu item
-// is chosen
-//-------------------------------------------------------------
 void ImpressionistUI::cb_paintly(Fl_Menu_* o, void* v)
 {
 	whoami(o)->m_paintlyDialog->show();
 }
-=======
-void ImpressionistUI::cb_brushes(Fl_Menu_* o, void* v) 
-{
-	whoami(o)->m_brushDialog->show();
-}
->>>>>>> master
 
 //------------------------------------------------------------
 // Clears the paintview canvas.
@@ -254,11 +237,8 @@ void ImpressionistUI::cb_exit(Fl_Menu_* o, void* v)
 {
 	whoami(o)->m_mainWindow->hide();
 	whoami(o)->m_brushDialog->hide();
-<<<<<<< HEAD
 	whoami(o)->m_colorSelector->hide();
 	whoami(o)->m_paintlyDialog->hide();
-=======
->>>>>>> master
 
 }
 
@@ -281,23 +261,14 @@ void ImpressionistUI::cb_about(Fl_Menu_* o, void* v)
 //-------------------------------------------------------------
 void ImpressionistUI::cb_brushChoice(Fl_Widget* o, void* v)
 {
-<<<<<<< HEAD
 	ImpressionistUI* pUI = ((ImpressionistUI *)(o->user_data()));
 	ImpressionistDoc* pDoc = pUI->getDocument();
 
 	int type = (int)v;
-=======
-	ImpressionistUI* pUI=((ImpressionistUI *)(o->user_data()));
-	ImpressionistDoc* pDoc=pUI->getDocument();
-
-	int type=(int)v;
->>>>>>> master
-
 
 	pDoc->setBrushType(type);
 }
 
-<<<<<<< HEAD
 ////-------------------------------------------------------------
 //// Sets the type of brush to use to the one chosen in the  
 //// stroke direction choice.  
@@ -315,8 +286,6 @@ void ImpressionistUI::cb_brushChoice(Fl_Widget* o, void* v)
 //	pDoc->setStrokeDirection(type);
 //}
 
-=======
->>>>>>> master
 //------------------------------------------------------------
 // Clears the paintview canvas.
 // Called by the UI when the clear canvas button is pushed
@@ -334,7 +303,6 @@ void ImpressionistUI::cb_clear_canvas_button(Fl_Widget* o, void* v)
 // slider
 // Called by the UI when the size slider is moved
 //-----------------------------------------------------------
-<<<<<<< HEAD
 void ImpressionistUI::cb_brushSizeSlides(Fl_Widget* o, void* v)
 {
 	((ImpressionistUI*)(o->user_data()))->m_nBrushSize = int(((Fl_Slider *)o)->value());
@@ -464,11 +432,6 @@ void ImpressionistUI::cb_load_another_image(Fl_Menu_* o, void* v)
 	if (newfile != NULL) {
 		pDoc->loadImage(newfile);
 	}
-=======
-void ImpressionistUI::cb_sizeSlides(Fl_Widget* o, void* v)
-{
-	((ImpressionistUI*)(o->user_data()))->m_nSize=int( ((Fl_Slider *)o)->value() ) ;
->>>>>>> master
 }
 
 //---------------------------------- per instance functions --------------------------------------
@@ -514,21 +477,14 @@ void ImpressionistUI::setDocument(ImpressionistDoc* doc)
 //------------------------------------------------
 // Return the brush size
 //------------------------------------------------
-<<<<<<< HEAD
 int ImpressionistUI::getBrushSize()
 {
 	return m_nBrushSize;
-=======
-int ImpressionistUI::getSize()
-{
-	return m_nSize;
->>>>>>> master
 }
 
 //-------------------------------------------------
 // Set the brush size
 //-------------------------------------------------
-<<<<<<< HEAD
 void ImpressionistUI::setBrushSize(int size)
 {
 	m_nBrushSize = size;
@@ -714,14 +670,6 @@ int ImpressionistUI::getPaintlyR0Level()
 void ImpressionistUI::setPaintlyR0Level(int r0Level)
 {
 	m_nPaintlyR0Level = r0Level;
-=======
-void ImpressionistUI::setSize( int size )
-{
-	m_nSize=size;
-
-	if (size<=40) 
-		m_BrushSizeSlider->value(m_nSize);
->>>>>>> master
 }
 
 // Main menu definition
@@ -730,7 +678,7 @@ Fl_Menu_Item ImpressionistUI::menuitems[] = {
 		{ "&Load Image...",	FL_ALT + 'l', (Fl_Callback *)ImpressionistUI::cb_load_image },
 		{ "&Save Image...",	FL_ALT + 's', (Fl_Callback *)ImpressionistUI::cb_save_image },
 		{ "&Brushes...",	FL_ALT + 'b', (Fl_Callback *)ImpressionistUI::cb_brushes }, 
-<<<<<<< HEAD
+
 		{ "&Clear Canvas",	FL_ALT + 'c', (Fl_Callback *)ImpressionistUI::cb_clear_canvas, 0, FL_MENU_DIVIDER },
 		{ "&Colors", FL_ALT + 'k', (Fl_Callback *)ImpressionistUI::cb_colors },
 		{ "&Paintly", FL_ALT + 'p', (Fl_Callback *)ImpressionistUI::cb_paintly, 0, FL_MENU_DIVIDER },
@@ -750,13 +698,6 @@ Fl_Menu_Item ImpressionistUI::menuitems[] = {
 		{ "&Safer", FL_ALT + 's', (Fl_Callback *)ImpressionistUI::cb_about },
 		{ 0 },
 
-=======
-		{ "&Clear Canvas", FL_ALT + 'c', (Fl_Callback *)ImpressionistUI::cb_clear_canvas, 0, FL_MENU_DIVIDER },
-		
-		{ "&Quit",			FL_ALT + 'q', (Fl_Callback *)ImpressionistUI::cb_exit },
-		{ 0 },
-
->>>>>>> master
 	{ "&Help",		0, 0, 0, FL_SUBMENU },
 		{ "&About",	FL_ALT + 'a', (Fl_Callback *)ImpressionistUI::cb_about },
 		{ 0 },
@@ -764,8 +705,7 @@ Fl_Menu_Item ImpressionistUI::menuitems[] = {
 	{ 0 }
 };
 
-// Brush choice menu definition
-<<<<<<< HEAD
+// Brush choice menu definitionf
 Fl_Menu_Item ImpressionistUI::brushTypeMenu[NUM_BRUSH_TYPE + 1] = {
 	{ "Points", FL_ALT + 'p', (Fl_Callback *)ImpressionistUI::cb_brushChoice, (void *)BRUSH_POINTS },
 	{ "Lines", FL_ALT + 'l', (Fl_Callback *)ImpressionistUI::cb_brushChoice, (void *)BRUSH_LINES },
@@ -783,20 +723,6 @@ Fl_Menu_Item ImpressionistUI::brushTypeMenu[NUM_BRUSH_TYPE + 1] = {
 //	{ "Brush Direction", FL_ALT + 'b', (Fl_Callback *)ImpressionistUI::cb_brushStrokeDirectionChoice, (void *)STROKE_BRUSH_DIRECTION },
 //	{ 0 }
 //};
-
-=======
-Fl_Menu_Item ImpressionistUI::brushTypeMenu[NUM_BRUSH_TYPE+1] = {
-  {"Points",			FL_ALT+'p', (Fl_Callback *)ImpressionistUI::cb_brushChoice, (void *)BRUSH_POINTS},
-  {"Lines",				FL_ALT+'l', (Fl_Callback *)ImpressionistUI::cb_brushChoice, (void *)BRUSH_LINES},
-  {"Circles",			FL_ALT+'c', (Fl_Callback *)ImpressionistUI::cb_brushChoice, (void *)BRUSH_CIRCLES},
-  {"Scattered Points",	FL_ALT+'q', (Fl_Callback *)ImpressionistUI::cb_brushChoice, (void *)BRUSH_SCATTERED_POINTS},
-  {"Scattered Lines",	FL_ALT+'m', (Fl_Callback *)ImpressionistUI::cb_brushChoice, (void *)BRUSH_SCATTERED_LINES},
-  {"Scattered Circles",	FL_ALT+'d', (Fl_Callback *)ImpressionistUI::cb_brushChoice, (void *)BRUSH_SCATTERED_CIRCLES},
-  {0}
-};
-
->>>>>>> master
-
 
 //----------------------------------------------------
 // Constructor.  Creates all of the widgets.
@@ -828,8 +754,6 @@ ImpressionistUI::ImpressionistUI() {
     m_mainWindow->end();
 
 	// init values
-
-<<<<<<< HEAD
 	m_nBrushSize = 10;
 	m_nBrushLineWidth = 1;
 	m_nBrushLineAngle = 0;
@@ -848,11 +772,7 @@ ImpressionistUI::ImpressionistUI() {
 	m_nPaintlyAlpha = 1.00;
 	m_nPaintlyLayer = 3;
 	m_nPaintlyR0Level = 3;
-	
-=======
-	m_nSize = 10;
 
->>>>>>> master
 	// brush dialog definition
 	m_brushDialog = new Fl_Window(400, 325, "Brush Dialog");
 		// Add a brush type choice to the dialog
@@ -865,19 +785,15 @@ ImpressionistUI::ImpressionistUI() {
 		m_ClearCanvasButton->user_data((void*)(this));
 		m_ClearCanvasButton->callback(cb_clear_canvas_button);
 
-<<<<<<< HEAD
 		//m_StrokeDirectionChoice = new Fl_Choice(10, 50, 150, 25, "&Stroke Direction");
 		//m_StrokeDirectionChoice->user_data((void*)(this));	// record self to be used by static callback functions
 		//m_StrokeDirectionChoice->menu(strokeDirectionMenu);
 		//m_StrokeDirectionChoice->callback(cb_brushStrokeDirectionChoice);
-=======
->>>>>>> master
 
 		// Add brush size slider to the dialog 
 		m_BrushSizeSlider = new Fl_Value_Slider(10, 80, 300, 20, "Size");
 		m_BrushSizeSlider->user_data((void*)(this));	// record self to be used by static callback functions
 		m_BrushSizeSlider->type(FL_HOR_NICE_SLIDER);
-<<<<<<< HEAD
 		m_BrushSizeSlider->labelfont(FL_COURIER);
 		m_BrushSizeSlider->labelsize(12);
 		m_BrushSizeSlider->minimum(1);
@@ -1110,17 +1026,5 @@ ImpressionistUI::ImpressionistUI() {
 		//TODO 6 sliders
 
 	m_paintlyDialog->end();
-=======
-        m_BrushSizeSlider->labelfont(FL_COURIER);
-        m_BrushSizeSlider->labelsize(12);
-		m_BrushSizeSlider->minimum(1);
-		m_BrushSizeSlider->maximum(40);
-		m_BrushSizeSlider->step(1);
-		m_BrushSizeSlider->value(m_nSize);
-		m_BrushSizeSlider->align(FL_ALIGN_RIGHT);
-		m_BrushSizeSlider->callback(cb_sizeSlides);
 
-    m_brushDialog->end();	
-
->>>>>>> master
 }
