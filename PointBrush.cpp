@@ -21,11 +21,11 @@ void PointBrush::BrushBegin( const Point source, const Point target )
 	ImpressionistDoc* pDoc = GetDocument();
 	ImpressionistUI* dlg=pDoc->m_pUI;
 
-	int size = pDoc->getBrushSize();
+	m_size = (float) pDoc->getBrushSize();
 
 
 
-	glPointSize( (float)size );
+	glPointSize(m_size);
 
 	BrushMove( source, target );
 }

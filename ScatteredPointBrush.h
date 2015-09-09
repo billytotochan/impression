@@ -1,7 +1,7 @@
 //
 // ScatteredPointBrush.h
 //
-// The header file for Scattered Point Brush. 
+// The header file for Point Brush. 
 //
 
 #ifndef SCATTEREDPOINTBRUSH_H
@@ -18,6 +18,10 @@ public:
 	void BrushMove(const Point source, const Point target);
 	void BrushEnd(const Point source, const Point target);
 	char* BrushName(void);
+
+private:
+
+	float m_size;
 };
 
 #endif
