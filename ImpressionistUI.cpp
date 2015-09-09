@@ -7,8 +7,6 @@
 
 #include <FL/fl_ask.h>
 
-#include <math.h>
-
 #include "impressionistUI.h"
 #include "impressionistDoc.h"
 

@@ -51,8 +51,6 @@ void LineBrush::BrushMove(const Point source, const Point target)
 		glVertex2f(target.x + m_size / 2, target.y + m_width / 2);
 		glVertex2f(target.x - m_size / 2, target.y + m_width / 2);
 
-	glVertex2d(target.x, target.y);
-
 	glEnd();
 	glPopMatrix();
 }

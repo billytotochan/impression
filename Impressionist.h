@@ -3,6 +3,8 @@
 #define SAMPLE_SOLUTION
 #include <stdio.h>
 
+#include <math.h>
+
 #include <FL/Fl.h>
 #include <FL/gl.h>
 #include <GL/glu.h>
