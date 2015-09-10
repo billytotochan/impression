@@ -22,8 +22,8 @@ public:
 private:
 
 	float m_size;
-	float m_width;
-	float m_angle;
+	float m_lineWidth;
+	float m_lineAngle;
 };
 
 #endif
