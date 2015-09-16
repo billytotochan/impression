@@ -267,22 +267,6 @@ void ImpressionistUI::cb_brushChoice(Fl_Widget* o, void* v)
 	pDoc->setBrushType(type);
 }
 
-////-------------------------------------------------------------
-//// Sets the type of brush to use to the one chosen in the  
-//// stroke direction choice.  
-//// Called by the UI when a brush is chosen in the stroke
-//// direction choice
-////-------------------------------------------------------------
-//void ImpressionistUI::cb_brushStrokeDirectionChoice(Fl_Widget* o, void* v)
-//{
-//	ImpressionistUI* pUI = ((ImpressionistUI *)(o->user_data()));
-//	ImpressionistDoc* pDoc = pUI->getDocument();
-//
-//	int type = (int)v;
-//
-//
-//	pDoc->setStrokeDirection(type);
-//}
 
 //------------------------------------------------------------
 // Clears the paintview canvas.
@@ -301,6 +285,10 @@ void ImpressionistUI::cb_clear_canvas_button(Fl_Widget* o, void* v)
 // slider
 // Called by the UI when the size slider is moved
 //-----------------------------------------------------------
+void ImpressionistUI::cb_brushStrokeDirectionChoice(Fl_Widget* o, void* v)
+{
+	((ImpressionistUI*)(o->user_data()))->m_nBrushStrokeDirection = int(v);
+}
 void ImpressionistUI::cb_brushSizeSlides(Fl_Widget* o, void* v)
 {
 	((ImpressionistUI*)(o->user_data()))->m_nBrushSize = int(((Fl_Slider *)o)->value());
@@ -353,6 +341,14 @@ void ImpressionistUI::cb_brushEdgeThresholdSlides(Fl_Widget* o, void* v)
 	((ImpressionistUI*)(o->user_data()))->m_nBrushEdgeThreshold = int(((Fl_Slider *)o)->value());
 }
 
+void ImpressionistUI::cb_paintlyStyleChoice(Fl_Widget* o, void* v)
+{
+	((ImpressionistUI*)(o->user_data()))->m_nPaintlyStyle = int(v);
+}
+void ImpressionistUI::cb_paintlyStrokeChoice(Fl_Widget* o, void* v)
+{
+	((ImpressionistUI*)(o->user_data()))->m_nPaintlyStroke = int(v);
+}
 void ImpressionistUI::cb_paintlyRunButton(Fl_Widget* o, void* v)
 {
 	ImpressionistDoc * pDoc = ((ImpressionistUI*)(o->user_data()))->getDocument();
@@ -491,6 +487,16 @@ void ImpressionistUI::setBrushSize(int size)
 		m_BrushSizeSlider->value(m_nBrushSize);
 }
 
+int ImpressionistUI::getBrushStrokeDirection()
+{
+	return m_nBrushStrokeDirection;
+}
+
+void ImpressionistUI::setBrushStrokeDirection(int strokeDirection)
+{
+	m_nBrushStrokeDirection = strokeDirection;
+}
+
 int ImpressionistUI::getBrushLineWidth()
 {
 	return m_nBrushLineWidth;
@@ -578,6 +584,26 @@ int ImpressionistUI::getBrushEdgeThreshold()
 void ImpressionistUI::setBrushEdgeThreshold(int edgeThreshold)
 {
 	m_nBrushEdgeThreshold = edgeThreshold;
+}
+
+int ImpressionistUI::getPaintlyStroke()
+{
+	return m_nPaintlyStroke;
+}
+
+void ImpressionistUI::setPaintlyStroke(int stroke)
+{
+	m_nPaintlyStroke = stroke;
+}
+
+int ImpressionistUI::getPaintlyStyle()
+{
+	return m_nPaintlyStyle;
+}
+
+void ImpressionistUI::setPaintlyStyle(int style)
+{
+	m_nPaintlyStyle = style;
 }
 
 int ImpressionistUI::getPaintlyThreshold()
@@ -714,13 +740,30 @@ Fl_Menu_Item ImpressionistUI::brushTypeMenu[NUM_BRUSH_TYPE + 1] = {
 	{ 0 }
 };
 
-//// Stroke Direction choice menu definition
-//Fl_Menu_Item ImpressionistUI::strokeDirectionMenu[NUM_STROKE_DIRECTION + 1] = {
-//	{ "Slider/Right Mouse", FL_ALT + 's', (Fl_Callback *)ImpressionistUI::cb_brushStrokeDirectionChoice, (void *)STROKE_SLIDER_RIGHT_MOUSE },
-//	{ "Gradient", FL_ALT + 'g', (Fl_Callback *)ImpressionistUI::cb_brushStrokeDirectionChoice, (void *)STROKE_GRADIENT },
-//	{ "Brush Direction", FL_ALT + 'b', (Fl_Callback *)ImpressionistUI::cb_brushStrokeDirectionChoice, (void *)STROKE_BRUSH_DIRECTION },
-//	{ 0 }
-//};
+Fl_Menu_Item ImpressionistUI::brushStrokeDirectionMenu[NUM_BRUSH_STROKE_DIRECTION + 1] = {
+	{ "Slider/Right Mouse", FL_ALT + 's', (Fl_Callback *)ImpressionistUI::cb_brushStrokeDirectionChoice, (void *)STROKE_DIRECTION_SLIDER_RIGHT_MOUSE },
+	{ "Gradient", FL_ALT + 'g', (Fl_Callback *)ImpressionistUI::cb_brushStrokeDirectionChoice, (void *)STROKE_DIRECTION_GRADIENT },
+	{ "Brush Direction", FL_ALT + 'b', (Fl_Callback *)ImpressionistUI::cb_brushStrokeDirectionChoice, (void *)STROKE_DIRECTION_BRUSH_DIRECTION },
+	{ 0 }
+};
+
+Fl_Menu_Item ImpressionistUI::paintlyStyleMenu[NUM_PAINTLY_STYLE + 1] = {
+	{ "Impressionist", FL_ALT + 'i', (Fl_Callback *)ImpressionistUI::cb_brushStrokeDirectionChoice, (void *)STYLE_IMPRESSIONIST },
+	{ "Expressionist", FL_ALT + 'e', (Fl_Callback *)ImpressionistUI::cb_brushStrokeDirectionChoice, (void *)STYLE_EXPRESSIONIST },
+	{ "Color Wash", FL_ALT + 'w', (Fl_Callback *)ImpressionistUI::cb_brushStrokeDirectionChoice, (void *)STYLE_COLOR_WASH },
+	{ "Pointillist", FL_ALT + 'p', (Fl_Callback *)ImpressionistUI::cb_brushStrokeDirectionChoice, (void *)STYLE_POINTILLIST },
+	{ "Customize", FL_ALT + 'c', (Fl_Callback *)ImpressionistUI::cb_brushStrokeDirectionChoice, (void *)STYLE_CUSTOMIZE },
+	{ 0 }
+};
+
+Fl_Menu_Item ImpressionistUI::paintlyStrokeMenu[NUM_PAINTLY_STROKE + 1] = {
+	{ "Curve Brush", FL_ALT + 'r', (Fl_Callback *)ImpressionistUI::cb_brushStrokeDirectionChoice, (void *)STROKE_CURVE_BRUSH },
+	{ "BSpline Brush", FL_ALT + 'b', (Fl_Callback *)ImpressionistUI::cb_brushStrokeDirectionChoice, (void *)STROKE_BSPLINE_BRUSH },
+	{ "Circle Brush", FL_ALT + 'c', (Fl_Callback *)ImpressionistUI::cb_brushStrokeDirectionChoice, (void *)STROKE_CIRCLE_BRUSH },
+	{ "Clip Line Brush", FL_ALT + 'p', (Fl_Callback *)ImpressionistUI::cb_brushStrokeDirectionChoice, (void *)STROKE_CLIP_LINE_BRUSH },
+	{ "Line Brush", FL_ALT + 'l', (Fl_Callback *)ImpressionistUI::cb_brushStrokeDirectionChoice, (void *)STROKE_LINE_BRUSH },
+	{ 0 }
+};
 
 //----------------------------------------------------
 // Constructor.  Creates all of the widgets.
@@ -783,10 +826,10 @@ ImpressionistUI::ImpressionistUI() {
 		m_ClearCanvasButton->user_data((void*)(this));
 		m_ClearCanvasButton->callback(cb_clear_canvas_button);
 
-		//m_StrokeDirectionChoice = new Fl_Choice(10, 50, 150, 25, "&Stroke Direction");
-		//m_StrokeDirectionChoice->user_data((void*)(this));	// record self to be used by static callback functions
-		//m_StrokeDirectionChoice->menu(strokeDirectionMenu);
-		//m_StrokeDirectionChoice->callback(cb_brushStrokeDirectionChoice);
+		m_BrushStrokeDirectionChoice = new Fl_Choice(150, 50, 150, 25, "&Stroke Direction");
+		m_BrushStrokeDirectionChoice->user_data((void*)(this));	// record self to be used by static callback functions
+		m_BrushStrokeDirectionChoice->menu(brushStrokeDirectionMenu);
+		m_BrushStrokeDirectionChoice->callback(cb_brushStrokeDirectionChoice);
 
 		// Add brush size slider to the dialog 
 		m_BrushSizeSlider = new Fl_Value_Slider(10, 80, 300, 20, "Size");
@@ -899,15 +942,15 @@ ImpressionistUI::ImpressionistUI() {
 
 	m_paintlyDialog = new Fl_Window(400, 325, "Paintly Dialog");
 
-		//m_PaintlyStyleChoice = new Fl_Choice(50, 10, 100, 25, "&Style");
-		//m_PaintlyStyleChoice->user_data((void*)(this));
-		//m_PaintlyStyleChoice->menu(paintlyStyleMenu);
-		//m_PaintlyStyleChoice->callback(cb_paintlyStyleChoice);
+		m_PaintlyStyleChoice = new Fl_Choice(50, 10, 100, 25, "&Style");
+		m_PaintlyStyleChoice->user_data((void*)(this));
+		m_PaintlyStyleChoice->menu(paintlyStyleMenu);
+		m_PaintlyStyleChoice->callback(cb_paintlyStyleChoice);
 
-		//m_PaintlyStrokeChoice = new Fl_Choice(50, 120, 100, 25, "S&t&roke");
-		//m_PaintlyStrokeChoice->user_data((void*)(this));
-		//m_PaintlyStrokeChoice->menu(paintlyStrokeMenu);
-		//m_PaintlyStrokeChoice->callback(cb_paintlyStrokeChoice);
+		m_PaintlyStrokeChoice = new Fl_Choice(240, 10, 100, 25, "S&t&roke");
+		m_PaintlyStrokeChoice->user_data((void*)(this));
+		m_PaintlyStrokeChoice->menu(paintlyStrokeMenu);
+		m_PaintlyStrokeChoice->callback(cb_paintlyStrokeChoice);
 
 		m_PaintlyRunButton = new Fl_Button(340, 10, 50, 25, "&Run");
 		m_PaintlyRunButton->user_data((void*)(this));

@@ -51,22 +51,6 @@ ImpressionistDoc::ImpressionistDoc()
 
 	// make one of the brushes current
 	m_pCurrentBrush = ImpBrush::c_pBrushes[0];
-	
-	//// create one instance of each stroke direction
-	//ImpBrush::c_nStrokeDirectionCount = NUM_STROKE_DIRECTION;
-	//ImpBrush::c_pStrokeDirections = new ImpBrush*[ImpBrush::c_nStrokeDirectionCount];
-
-	//// Note: You should implement these 3 stroke directions.
-	//ImpBrush::c_pStrokeDirections[STROKE_SLIDER_RIGHT_MOUSE]
-	//	= new PointBrush(this, "Slider/Right Mouse");
-	//ImpBrush::c_pStrokeDirections[STROKE_GRADIENT]
-	//	= new PointBrush(this, "Gradient");
-	//ImpBrush::c_pStrokeDirections[STROKE_BRUSH_DIRECTION]
-	//	= new PointBrush(this, "Brush Direction");
-
-	//// make one of the stroke directions current
-	//m_pCurrentStrokeDirection = ImpBrush::c_pStrokeDirections[0];
-
 }
 
 
@@ -94,16 +78,6 @@ void ImpressionistDoc::setBrushType(int type)
 {
 	m_pCurrentBrush = ImpBrush::c_pBrushes[type];
 }
-
-////---------------------------------------------------------
-//// Called by the UI when the user changes the stroke
-//// direction.
-//// type: one of the defined stroke directions.
-////---------------------------------------------------------
-//void ImpressionistDoc::setStrokeDirection(int type)
-//{
-//	m_pCurrentStrokeDirection = ImpBrush::c_pStrokeDirections[type];
-//}
 
 //---------------------------------------------------------
 // Returns the size of the brush.

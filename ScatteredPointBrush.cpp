@@ -23,8 +23,6 @@ void ScatteredPointBrush::BrushBegin(const Point source, const Point target)
 
 	m_size = (float)pDoc->getBrushSize();
 
-
-
 	glPointSize(m_size);
 
 	BrushMove(source, target);
@@ -40,15 +38,14 @@ void ScatteredPointBrush::BrushMove(const Point source, const Point target)
 		printf("ScatteredPointBrush::BrushMove  document is NULL\n");
 		return;
 	}
-
+	
 	glPointSize(1.0);
 	glBegin(GL_POINTS);
 
-	//SetColor(source);
-	for (int i = 0; i < 50; i++){
+	for (int i = 0; i < 1000; i++){
 		Ax = target.x - m_size / 2 + rand() % (int) m_size;
 		Ay = target.y - m_size / 2 + rand() % (int) m_size;
-		SetColor( Point(Ax, Ay));
+		SetColor(Point((int) Ax, (int) Ay));
 		glVertex2f(Ax, Ay);
 	}
 

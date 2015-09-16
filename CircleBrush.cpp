@@ -21,10 +21,8 @@ void CircleBrush::BrushBegin(const Point source, const Point target)
 	ImpressionistDoc* pDoc = GetDocument();
 	ImpressionistUI* dlg = pDoc->m_pUI;
 
-	m_size = pDoc->getBrushSize();
-	//glPointSize((float)m_size);
-
-	//glPointSize((float)m_size);
+	m_size = (float) pDoc->getBrushSize();
+	//glPointSize(m_size);
 
 	BrushMove(source, target);
 }

@@ -36,7 +36,7 @@ public:
 	// for brush dialog
 	Fl_Window*			m_brushDialog;
 	Fl_Choice*			m_BrushTypeChoice;
-	//Fl_Choice*			m_StrokeDirectionChoice;
+	Fl_Choice*			m_BrushStrokeDirectionChoice;
 
 	Fl_Slider*			m_BrushSizeSlider;
 	Fl_Slider*			m_BrushLineWidthSlider;
@@ -65,6 +65,8 @@ public:
 	void				resize_windows(int w, int h);
 
 	// Interface to get attribute
+	int					getBrushStrokeDirection();
+	void				setBrushStrokeDirection(int strokeDirection);
 
 	int					getBrushSize();
 	void				setBrushSize(int size);
@@ -98,9 +100,9 @@ public:
 
 	// for color selector
 	Fl_Window*			m_paintlyDialog;
-
+	Fl_Choice*			m_PaintlyStyleChoice;
+	Fl_Choice*			m_PaintlyStrokeChoice;
 	Fl_Button*			m_PaintlyRunButton;
-
 	Fl_Slider*			m_PaintlyThresholdSlider;
 	Fl_Slider*			m_PaintlyCurvatureSlider;
 	Fl_Slider*			m_PaintlyBlurSlider;
@@ -110,6 +112,12 @@ public:
 	Fl_Slider*			m_PaintlyAlphaSlider;
 	Fl_Slider*			m_PaintlyLayerSlider;
 	Fl_Slider*			m_PaintlyR0LevelSlider;
+
+	int					getPaintlyStyle();
+	void				setPaintlyStyle(int styleChoice);
+
+	int					getPaintlyStroke();
+	void				setPaintlyStroke(int strokeChoice);
 
 	int					getPaintlyThreshold();
 	void				setPaintlyThreshold(int threshold);
@@ -142,6 +150,7 @@ private:
 	ImpressionistDoc*	m_pDoc;		// pointer to document to communicate with the document
 
 	// All attributes here
+	int		m_nBrushStrokeDirection;
 	int		m_nBrushSize;
 	int		m_nBrushLineWidth;
 	int		m_nBrushLineAngle;
@@ -151,6 +160,8 @@ private:
 	int		m_nBrushSpacing;
 	bool	m_nBrushRandomSize;
 	int		m_nBrushEdgeThreshold;
+	int		m_nPaintlyStyle;
+	int		m_nPaintlyStroke;
 	int		m_nPaintlyThreshold;
 	float	m_nPaintlyCurvature;
 	float	m_nPaintlyBlur;
@@ -164,7 +175,9 @@ private:
 	// Static class members
 	static Fl_Menu_Item		menuitems[];
 	static Fl_Menu_Item		brushTypeMenu[NUM_BRUSH_TYPE + 1];
-	//static Fl_Menu_Item		strokeDirectionMenu[NUM_STROKE_DIRECTION + 1];
+	static Fl_Menu_Item		brushStrokeDirectionMenu[NUM_BRUSH_STROKE_DIRECTION + 1];
+	static Fl_Menu_Item		paintlyStyleMenu[NUM_PAINTLY_STYLE + 1];
+	static Fl_Menu_Item		paintlyStrokeMenu[NUM_PAINTLY_STROKE + 1];
 
 	static ImpressionistUI*	whoami(Fl_Menu_* o);
 
@@ -179,7 +192,7 @@ private:
 	static void	cb_exit(Fl_Menu_* o, void* v);
 	static void	cb_about(Fl_Menu_* o, void* v);
 	static void	cb_brushChoice(Fl_Widget* o, void* v);
-	//static void	cb_brushStrokeDirectionChoice(Fl_Widget* o, void* v);
+	static void	cb_brushStrokeDirectionChoice(Fl_Widget* o, void* v);
 	static void	cb_clear_canvas_button(Fl_Widget* o, void* v);
 	static void	cb_brushSizeSlides(Fl_Widget* o, void* v);
 	static void	cb_brushLineWidthSlides(Fl_Widget* o, void* v);
@@ -193,6 +206,8 @@ private:
 	static void	cb_brushEdgeThresholdSlides(Fl_Widget* o, void* v);
 	static void	cb_brushDoItButton(Fl_Widget* o, void* v);
 	static void	cb_paintlyRunButton(Fl_Widget* o, void* v);
+	static void	cb_paintlyStyleChoice(Fl_Widget* o, void* v);
+	static void	cb_paintlyStrokeChoice(Fl_Widget* o, void* v);
 	static void	cb_paintlyThresholdSlides(Fl_Widget* o, void* v);
 	static void	cb_paintlyCurvatureSlides(Fl_Widget* o, void* v);
 	static void	cb_paintlyBlurSlides(Fl_Widget* o, void* v);
