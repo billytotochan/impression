@@ -24,6 +24,7 @@ void LineBrush::BrushBegin(const Point source, const Point target)
 	m_size = (float) pDoc->getBrushSize();
 	m_lineWidth = (float)dlg->getBrushLineWidth();
 	m_lineAngle = (float) dlg->getBrushLineAngle();
+	m_brushType = dlg->getBrushStrokeDirection();
 
 	//glPointSize(m_size);
 
@@ -39,6 +40,10 @@ void LineBrush::BrushMove(const Point source, const Point target)
 	}
 
 	glMatrixMode(GL_MODELVIEW);
+
+	if (m_brushType == STROKE_DIRECTION_GRADIENT){
+		
+	}
 
 	float add_x = cos(m_lineAngle * M_PI / 180) * m_size;
 	float add_y = sin(m_lineAngle * M_PI / 180) * m_size;

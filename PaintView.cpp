@@ -107,6 +107,7 @@ void PaintView::draw()
 		switch (eventToDo) 
 		{
 		case LEFT_MOUSE_DOWN:
+			RestoreContent();
 			m_pDoc->m_pCurrentBrush->BrushBegin( source, target );
 			break;
 		case LEFT_MOUSE_DRAG:
@@ -119,12 +120,39 @@ void PaintView::draw()
 			RestoreContent();
 			break;
 		case RIGHT_MOUSE_DOWN:
+			RestoreContent();
+			original.x = target.x;
+			original.y = target.y;
 
 			break;
 		case RIGHT_MOUSE_DRAG:
+			RestoreContent();
+			glBegin(GL_LINE);
+
+			GLubyte color[3];
+			color[0] = GLubyte(255);
+			color[1] = GLubyte(0);
+			color[2] = GLubyte(0);
+
+			glColor3ubv(color);
+			glVertex2d(original.x, original.y);
+			glVertex2d(target.x, target.y);
+
+			glEnd();
 
 			break;
 		case RIGHT_MOUSE_UP:
+			if (m_pDoc->m_pCurrentBrush->BrushName() == "Lines" || m_pDoc->m_pCurrentBrush->BrushName() == "Scattered Lines"){
+				int size = abs(target.x - original.x);
+				if (size > 40){
+					m_pDoc->m_pUI->setBrushSize( 40);
+				}
+				else{
+					m_pDoc->m_pUI->setBrushSize( size);
+				}
+				m_pDoc->m_pUI->setBrushLineAngle(atan((float)(target.y - original.y) / (target.x - original.x)) * 180 / M_PI + 180);
+			}
+			RestoreContent();
 
 			break;
 

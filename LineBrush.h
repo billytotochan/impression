@@ -20,7 +20,7 @@ public:
 	char* BrushName(void);
 
 private:
-
+	int m_brushType;
 	float m_size;
 	float m_lineWidth;
 	float m_lineAngle;
