@@ -42,9 +42,9 @@ void LineBrush::BrushMove(const Point source, const Point target)
 	glMatrixMode(GL_MODELVIEW);
 
 	if (m_brushType == STROKE_DIRECTION_GRADIENT){
-		float factorR = 0.3;
-		float factorG = 0.6;
-		float factorB = 0.11;
+		float factorR = 0.3f;
+		float factorG = 0.6f;
+		float factorB = 0.11f;
 
 		int sobelX[3][3] = {{ -1, -2, -1 },
 							{ 0, 0, 0 },
@@ -85,7 +85,7 @@ void LineBrush::BrushMove(const Point source, const Point target)
 		angle += atan2((float)Gy, (float)Gx) * 180 / M_PI;
 		m_lineAngle = angle;
 
-		printf("%f ,", m_lineAngle);
+		//printf("%f ,", m_lineAngle);
 		//printf("%d ,%d \n", RGx, RGy);
 		//printf("%d ,%d \n", GGx, GGy);
 		//printf("%d ,%d \n", BGx, BGy);

@@ -1,5 +1,5 @@
 //
-// LineBrush.cpp
+// CircleBrush.cpp
 //
 // The implementation of Circle Brush. It is a kind of ImpBrush. All your brush implementations
 // will look like the file with the different GL primitive calls.

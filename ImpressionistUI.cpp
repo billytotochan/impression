@@ -270,6 +270,7 @@ void ImpressionistUI::cb_brushChoice(Fl_Widget* o, void* v)
 	case BRUSH_CIRCLES:
 	case BRUSH_SCATTERED_POINTS:
 	case BRUSH_SCATTERED_CIRCLES:
+	case BRUSH_TRIANGLES:
 		pUI->m_BrushLineWidthSlider->deactivate();
 		pUI->m_BrushLineAngleSlider->deactivate();
 		pUI->m_BrushStrokeDirectionChoice->deactivate();
@@ -797,6 +798,7 @@ Fl_Menu_Item ImpressionistUI::brushTypeMenu[NUM_BRUSH_TYPE + 1] = {
 	{ "Scattered Points", FL_ALT + 'q', (Fl_Callback *)ImpressionistUI::cb_brushChoice, (void *)BRUSH_SCATTERED_POINTS },
 	{ "Scattered Lines", FL_ALT + 'm', (Fl_Callback *)ImpressionistUI::cb_brushChoice, (void *)BRUSH_SCATTERED_LINES },
 	{ "Scattered Circles", FL_ALT + 'd', (Fl_Callback *)ImpressionistUI::cb_brushChoice, (void *)BRUSH_SCATTERED_CIRCLES },
+	{ "Triangles", FL_ALT + 't', (Fl_Callback *)ImpressionistUI::cb_brushChoice, (void *)BRUSH_TRIANGLES },
 	{ 0 }
 };
 
