@@ -12,6 +12,7 @@
 #include <FL/gl.h>
 #include <GL/glu.h>
 #include <stdlib.h>
+#include <vector>
 
 class ImpressionistDoc;
 
@@ -32,10 +33,13 @@ public:
 
 	void setDrawAll();
 
+	void undoDraw();
+
 	ImpressionistDoc *m_pDoc;
 
 private:
 	GLvoid* m_pPaintBitstart;
+	std::vector< unsigned char*> m_pHistory;
 	int		m_nDrawWidth,
 			m_nDrawHeight,
 			m_nStartRow, 

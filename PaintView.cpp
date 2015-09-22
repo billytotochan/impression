@@ -9,6 +9,7 @@
 #include "impressionistUI.h"
 #include "paintview.h"
 #include "ImpBrush.h"
+#include "iostream"
 
 
 #define LEFT_MOUSE_DOWN		1
@@ -95,8 +96,6 @@ void PaintView::draw()
 			glDrawBuffer(GL_FRONT);
 
 			isDrawAll = 0;
-
-
 
 			int tempSize = m_pDoc->m_pUI->getBrushSize();
 
@@ -252,8 +251,6 @@ int PaintView::handle(int event)
 
 	}
 
-
-
 	return 1;
 }
 
@@ -269,6 +266,11 @@ void PaintView::resizeWindow(int width, int height)
 
 void PaintView::SaveCurrentContent()
 {
+	unsigned char* old = new unsigned char [ m_pDoc->m_nWidth * m_pDoc->m_nHeight * 3];
+	memcpy(old, m_pDoc->m_ucPainting, m_pDoc->m_nWidth * m_pDoc->m_nHeight * 3);
+
+	m_pHistory.push_back( old);
+
 	// Tell openGL to read from the front buffer when capturing
 	// out paint strokes
 	glReadBuffer(GL_FRONT);
@@ -302,6 +304,17 @@ void PaintView::RestoreContent()
 				  m_pPaintBitstart);
 
 	//glDrawBuffer(GL_FRONT);
+}
+
+void PaintView::undoDraw()
+{
+	if ( !m_pHistory.empty()){
+		if (m_pDoc->m_ucPainting) delete[] m_pDoc->m_ucPainting;
+		m_pDoc->m_ucPainting = m_pHistory.back();
+		//std::cout << m_pDoc->m_ucPainting << std::endl;
+		m_pHistory.pop_back();
+		redraw();
+	}
 }
 
 void PaintView::setDrawAll()
