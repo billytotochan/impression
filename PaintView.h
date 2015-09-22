@@ -35,6 +35,8 @@ public:
 
 	void undoDraw();
 
+	int getBrushDirection();
+
 	ImpressionistDoc *m_pDoc;
 
 private:
@@ -47,8 +49,10 @@ private:
 			m_nStartCol, 
 			m_nEndCol,
 			m_nWindowWidth, 
-			m_nWindowHeight;
-	Point	original;
+			m_nWindowHeight,
+			m_nBrushDirection;
+	Point	original,
+			previous;
 
 };
 

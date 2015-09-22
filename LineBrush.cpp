@@ -91,6 +91,9 @@ void LineBrush::BrushMove(const Point source, const Point target)
 		//printf("%d ,%d \n", BGx, BGy);
 
 	}
+	else if ( m_brushType == STROKE_DIRECTION_BRUSH_DIRECTION){
+		m_lineAngle = pDoc->m_pUI->m_paintView->getBrushDirection();
+	}
 
 	float add_x = cos(m_lineAngle * M_PI / 180) * m_size / 2;
 	float add_y = sin(m_lineAngle * M_PI / 180) * m_size / 2;

@@ -140,9 +140,15 @@ void PaintView::draw()
 		{
 		case LEFT_MOUSE_DOWN:
 			RestoreContent();
+			m_nBrushDirection = 0;
+			previous.x = target.x;
+			previous.y = target.y;
 			m_pDoc->m_pCurrentBrush->BrushBegin( source, target );
 			break;
 		case LEFT_MOUSE_DRAG:
+			m_nBrushDirection = atan2( (float)target.y - previous.y, (float)target.x - previous.x) * 180 / M_PI;
+			previous.x = target.x;
+			previous.y = target.y;
 			m_pDoc->m_pCurrentBrush->BrushMove( source, target );
 			break;
 		case LEFT_MOUSE_UP:
@@ -321,4 +327,9 @@ void PaintView::setDrawAll()
 {
 	isDrawAll = 1;
 	redraw();
+}
+
+int PaintView::getBrushDirection()
+{
+	return m_nBrushDirection;
 }
