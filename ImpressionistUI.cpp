@@ -888,6 +888,7 @@ ImpressionistUI::ImpressionistUI() {
 		m_BrushStrokeDirectionChoice = new Fl_Choice(150, 50, 150, 25, "&Stroke Direction");
 		m_BrushStrokeDirectionChoice->user_data((void*)(this));	// record self to be used by static callback functions
 		m_BrushStrokeDirectionChoice->menu(brushStrokeDirectionMenu);
+		m_BrushStrokeDirectionChoice->deactivate();
 		m_BrushStrokeDirectionChoice->callback(cb_brushStrokeDirectionChoice);
 
 		// Add brush size slider to the dialog 
@@ -913,6 +914,7 @@ ImpressionistUI::ImpressionistUI() {
 		m_BrushLineWidthSlider->step(1);
 		m_BrushLineWidthSlider->value(m_nBrushLineWidth);
 		m_BrushLineWidthSlider->align(FL_ALIGN_RIGHT);
+		m_BrushLineWidthSlider->deactivate();
 		m_BrushLineWidthSlider->callback(cb_brushLineWidthSlides);
 
 		m_BrushLineAngleSlider = new Fl_Value_Slider(10, 140, 300, 20, "Line Angle");
@@ -925,6 +927,7 @@ ImpressionistUI::ImpressionistUI() {
 		m_BrushLineAngleSlider->step(1);
 		m_BrushLineAngleSlider->value(m_nBrushLineAngle);
 		m_BrushLineAngleSlider->align(FL_ALIGN_RIGHT);
+		m_BrushLineAngleSlider->deactivate();
 		m_BrushLineAngleSlider->callback(cb_brushLineAngleSlides);
 
 		m_BrushAlphaSlider = new Fl_Value_Slider(10, 170, 300, 20, "Alpha");
@@ -942,11 +945,13 @@ ImpressionistUI::ImpressionistUI() {
 		m_BrushEdgeClippingLightButton = new Fl_Light_Button(10, 200, 150, 25, "&Edge Clipping");
 		m_BrushEdgeClippingLightButton->user_data((void*)(this));
 		m_BrushEdgeClippingLightButton->value(m_nBrushEdgeClipping);
+		m_BrushEdgeClippingLightButton->deactivate();
 		m_BrushEdgeClippingLightButton->callback(cb_brushEdgeClippingLightButton);
 
 		m_BrushAnotherGradientLightButton = new Fl_Light_Button(240, 200, 150, 25, "&Another Gradient");
 		m_BrushAnotherGradientLightButton->user_data((void*)(this));
 		m_BrushAnotherGradientLightButton->value(m_nBrushAnotherGradient);
+		m_BrushAnotherGradientLightButton->deactivate();
 		m_BrushAnotherGradientLightButton->callback(cb_brushAnotherGradientLightButton);
 		
 		m_BrushPaintSpacingGroup = new Fl_Group(10, 230, 400, 30);
@@ -1009,6 +1014,7 @@ ImpressionistUI::ImpressionistUI() {
 		m_PaintlyStrokeChoice = new Fl_Choice(240, 10, 100, 25, "S&t&roke");
 		m_PaintlyStrokeChoice->user_data((void*)(this));
 		m_PaintlyStrokeChoice->menu(paintlyStrokeMenu);
+		m_PaintlyStrokeChoice->deactivate();
 		m_PaintlyStrokeChoice->callback(cb_paintlyStrokeChoice);
 
 		m_PaintlyRunButton = new Fl_Button(340, 10, 50, 25, "&Run");
@@ -1025,6 +1031,7 @@ ImpressionistUI::ImpressionistUI() {
 		m_PaintlyThresholdSlider->step(1);
 		m_PaintlyThresholdSlider->value(m_nPaintlyThreshold);
 		m_PaintlyThresholdSlider->align(FL_ALIGN_RIGHT);
+		m_PaintlyThresholdSlider->deactivate();
 		m_PaintlyThresholdSlider->callback(cb_paintlyThresholdSlides);
 
 		m_PaintlyCurvatureSlider = new Fl_Value_Slider(10, 80, 150, 20, "Curvature");
@@ -1037,6 +1044,7 @@ ImpressionistUI::ImpressionistUI() {
 		m_PaintlyCurvatureSlider->step(0.01);
 		m_PaintlyCurvatureSlider->value(m_nPaintlyCurvature);
 		m_PaintlyCurvatureSlider->align(FL_ALIGN_RIGHT);
+		m_PaintlyCurvatureSlider->deactivate();
 		m_PaintlyCurvatureSlider->callback(cb_paintlyCurvatureSlides);
 
 		m_PaintlyBlurSlider = new Fl_Value_Slider(10, 110, 150, 20, "Blur");
@@ -1049,6 +1057,7 @@ ImpressionistUI::ImpressionistUI() {
 		m_PaintlyBlurSlider->step(0.01);
 		m_PaintlyBlurSlider->value(m_nPaintlyBlur);
 		m_PaintlyBlurSlider->align(FL_ALIGN_RIGHT);
+		m_PaintlyBlurSlider->deactivate();
 		m_PaintlyBlurSlider->callback(cb_paintlyBlurSlides);
 
 		m_PaintlyGridSizeSlider = new Fl_Value_Slider(10, 140, 150, 20, "Grid Size");
@@ -1061,6 +1070,7 @@ ImpressionistUI::ImpressionistUI() {
 		m_PaintlyGridSizeSlider->step(0.01);
 		m_PaintlyGridSizeSlider->value(m_nPaintlyGridSize);
 		m_PaintlyGridSizeSlider->align(FL_ALIGN_RIGHT);
+		m_PaintlyGridSizeSlider->deactivate();
 		m_PaintlyGridSizeSlider->callback(cb_paintlyGridSizeSlides);
 
 		m_PaintlyMinStrokeLengthSlider = new Fl_Value_Slider(10, 170, 150, 20, "MinStrokeLength");
@@ -1073,6 +1083,7 @@ ImpressionistUI::ImpressionistUI() {
 		m_PaintlyMinStrokeLengthSlider->step(1);
 		m_PaintlyMinStrokeLengthSlider->value(m_nPaintlyMinStrokeLength);
 		m_PaintlyMinStrokeLengthSlider->align(FL_ALIGN_RIGHT);
+		m_PaintlyMinStrokeLengthSlider->deactivate();
 		m_PaintlyMinStrokeLengthSlider->callback(cb_paintlyMinStrokeLengthSlides);
 
 		m_PaintlyMaxStrokeLengthSlider = new Fl_Value_Slider(10, 200, 150, 20, "MaxStrokeLength");
@@ -1085,6 +1096,7 @@ ImpressionistUI::ImpressionistUI() {
 		m_PaintlyMaxStrokeLengthSlider->step(1);
 		m_PaintlyMaxStrokeLengthSlider->value(m_nPaintlyMaxStrokeLength);
 		m_PaintlyMaxStrokeLengthSlider->align(FL_ALIGN_RIGHT);
+		m_PaintlyMaxStrokeLengthSlider->deactivate();
 		m_PaintlyMaxStrokeLengthSlider->callback(cb_paintlyMaxStrokeLengthSlides);
 
 		m_PaintlyAlphaSlider = new Fl_Value_Slider(10, 230, 150, 20, "Alpha");
@@ -1097,6 +1109,7 @@ ImpressionistUI::ImpressionistUI() {
 		m_PaintlyAlphaSlider->step(0.01);
 		m_PaintlyAlphaSlider->value(m_nPaintlyAlpha);
 		m_PaintlyAlphaSlider->align(FL_ALIGN_RIGHT);
+		m_PaintlyAlphaSlider->deactivate();
 		m_PaintlyAlphaSlider->callback(cb_paintlyAlphaSlides);
 
 		m_PaintlyLayerSlider = new Fl_Value_Slider(10, 260, 150, 20, "Layers");
@@ -1109,6 +1122,7 @@ ImpressionistUI::ImpressionistUI() {
 		m_PaintlyLayerSlider->step(1);
 		m_PaintlyLayerSlider->value(m_nPaintlyLayer);
 		m_PaintlyLayerSlider->align(FL_ALIGN_RIGHT);
+		m_PaintlyLayerSlider->deactivate();
 		m_PaintlyLayerSlider->callback(cb_paintlyLayerSlides);
 
 		m_PaintlyR0LevelSlider = new Fl_Value_Slider(10, 290, 150, 20, "R0 Level");
@@ -1121,6 +1135,7 @@ ImpressionistUI::ImpressionistUI() {
 		m_PaintlyR0LevelSlider->step(1);
 		m_PaintlyR0LevelSlider->value(m_nPaintlyR0Level);
 		m_PaintlyR0LevelSlider->align(FL_ALIGN_RIGHT);
+		m_PaintlyR0LevelSlider->deactivate();
 		m_PaintlyR0LevelSlider->callback(cb_paintlyR0LevelSlides);
 		
 		//TODO 6 sliders

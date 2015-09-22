@@ -68,7 +68,7 @@ void LineBrush::BrushMove(const Point source, const Point target)
 				GGy += sobelY[i][j] * colorG[i][j];
 				BGx += sobelX[i][j] * colorB[i][j];
 				BGy += sobelY[i][j] * colorB[i][j];
-
+				
 			}
 		}
 		float angle = 0;
