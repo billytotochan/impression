@@ -351,7 +351,7 @@ void ImpressionistUI::cb_brushSpacingSlides(Fl_Widget* o, void* v)
 
 void ImpressionistUI::cb_brushRandomSizeLightButton(Fl_Widget* o, void* v)
 {
-	((ImpressionistUI*)(o->user_data()))->m_nBrushRandomSize = !(((Fl_Light_Button *)o)->value());
+	((ImpressionistUI*)(o->user_data()))->m_nBrushRandomSize = (((Fl_Light_Button *)o)->value());
 }
 
 void ImpressionistUI::cb_brushPaintButton(Fl_Widget* o, void* v)
