@@ -89,13 +89,42 @@ void PaintView::draw()
 	m_nStartCol		= scrollpos.x;
 	m_nEndCol		= m_nStartCol + drawWidth;
 
-	if (isDrawAll){
-		isDrawAll = 0;
-	}
+	if ( isDrawAll)
+		{
+
+			glDrawBuffer(GL_FRONT);
+
+			isDrawAll = 0;
+
+
+
+			int tempSize = m_pDoc->m_pUI->getBrushSize();
+
+			int spacing = m_pDoc->m_pUI->getBrushSpacing();
+			for (int i = 0; i < m_nDrawWidth; i += spacing){
+				for (int j = 0; j < m_nDrawHeight; j += spacing){
+
+					if (m_pDoc->m_pUI->getBrushRandomSize()){
+						m_pDoc->m_pUI->setBrushSize(rand() % tempSize + 1);
+					}
+
+					Point source(i + m_nStartCol, m_nEndRow - j);
+					Point target(i, m_nWindowHeight - j);
+
+					m_pDoc->m_pCurrentBrush->BrushBegin(source, target);
+
+				}
+			}
+
+			m_pDoc->m_pUI->setBrushSize(tempSize);
+
+			SaveCurrentContent();
+			RestoreContent();
+
+		}
 	if ( m_pDoc->m_ucPainting && !isAnEvent) 
 	{
 		RestoreContent();
-
 	}
 
 	if ( m_pDoc->m_ucPainting && isAnEvent) 
@@ -272,10 +301,11 @@ void PaintView::RestoreContent()
 				  GL_UNSIGNED_BYTE, 
 				  m_pPaintBitstart);
 
-//	glDrawBuffer(GL_FRONT);
+	//glDrawBuffer(GL_FRONT);
 }
 
 void PaintView::setDrawAll()
 {
 	isDrawAll = 1;
+	redraw();
 }
