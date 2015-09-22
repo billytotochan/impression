@@ -367,6 +367,13 @@ void ImpressionistUI::cb_brushEdgeThresholdSlides(Fl_Widget* o, void* v)
 	((ImpressionistUI*)(o->user_data()))->m_nBrushEdgeThreshold = int(((Fl_Slider *)o)->value());
 }
 
+void ImpressionistUI::cb_brushDoItButton(Fl_Widget* o, void* v)
+{
+	ImpressionistDoc * pDoc = ((ImpressionistUI*)(o->user_data()))->getDocument();
+	// TODO
+	pDoc->m_pUI->m_origView->edgeImage();
+}
+
 void ImpressionistUI::cb_paintlyStyleChoice(Fl_Widget* o, void* v)
 {
 	ImpressionistUI* pUI = ((ImpressionistUI *)(o->user_data()));
@@ -460,13 +467,6 @@ void ImpressionistUI::cb_paintlyLayerSlides(Fl_Widget* o, void* v)
 void ImpressionistUI::cb_paintlyR0LevelSlides(Fl_Widget* o, void* v)
 {
 	((ImpressionistUI*)(o->user_data()))->m_nPaintlyR0Level = int(((Fl_Slider *)o)->value());
-}
-
-void ImpressionistUI::cb_brushDoItButton(Fl_Widget* o, void* v)
-{
-	ImpressionistDoc * pDoc = ((ImpressionistUI*)(o->user_data()))->getDocument();
-	// TODO
-	pDoc->clearCanvas();
 }
 
 void ImpressionistUI::cb_load_edge_image(Fl_Menu_* o, void* v)
