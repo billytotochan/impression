@@ -31,9 +31,11 @@ ImpressionistDoc::ImpressionistDoc()
 	m_imageName[0]	='\0';	
 
 	m_nWidth		= -1;
-	m_ucBitmap		= NULL;
-	m_ucPainting	= NULL;
-
+	m_ucBitmap = NULL;
+	m_ucPainting = NULL;
+	m_ucEdgeImage = NULL;
+	m_ucAnotherImage = NULL;
+	m_ucDissolveImage = NULL;
 
 	// create one instance of each brush
 	ImpBrush::c_nBrushCount = NUM_BRUSH_TYPE;
@@ -116,17 +118,23 @@ int ImpressionistDoc::loadImage(char *iname)
 	// reflect the fact of loading the new image
 	m_nWidth		= width;
 	m_nPaintWidth	= width;
-	m_nHeight		= height;
-	m_nPaintHeight	= height;
+	m_nHeight = height;
+	m_nPaintHeight = height;
 
 	// release old storage
-	if ( m_ucBitmap ) delete [] m_ucBitmap;
-	if ( m_ucPainting ) delete [] m_ucPainting;
+	if (m_ucBitmap) delete[] m_ucBitmap;
+	if (m_ucPainting) delete[] m_ucPainting;
+	if (m_ucEdgeImage) delete[] m_ucEdgeImage;
+	if (m_ucAnotherImage) delete[] m_ucAnotherImage;
+	if (m_ucDissolveImage) delete[] m_ucDissolveImage;
 
-	m_ucBitmap		= data;
+	m_ucBitmap = data;
 
 	// allocate space for draw view
-	m_ucPainting	= new unsigned char [width*height*3];
+	m_ucPainting = new unsigned char[width*height * 3];
+	m_ucEdgeImage = new unsigned char[width*height * 3];
+	m_ucAnotherImage = new unsigned char[width*height * 3];
+	m_ucDissolveImage = new unsigned char[width*height * 3];
 	memset(m_ucPainting, 0, width*height*3);
 
 	m_pUI->m_mainWindow->resize(m_pUI->m_mainWindow->x(), 
@@ -134,8 +142,12 @@ int ImpressionistDoc::loadImage(char *iname)
 								width*2, 
 								height+25);
 
+	edgeView();
+	anotherView();
+	m_pUI->m_origView->setView(VIEW_TYPE::ORIGINAL_VIEW);
+
 	// display it on origView
-	m_pUI->m_origView->resizeWindow(width, height);	
+	m_pUI->m_origView->resizeWindow(width, height);
 	m_pUI->m_origView->refresh();
 
 	// refresh paint view as well
@@ -210,3 +222,73 @@ GLubyte* ImpressionistDoc::GetOriginalPixel( const Point p )
 	return GetOriginalPixel( p.x, p.y );
 }
 
+int ImpressionistDoc::loadEdgeImage(char *iname)
+{
+	if (loadImage(iname)) {
+		edgeView();
+		return (1);
+	}
+}
+
+int ImpressionistDoc::loadAnotherImage(char *iname)
+{
+	if (loadImage(iname)) {
+		anotherView();
+		return (1);
+	}
+}
+
+int ImpressionistDoc::loadDissolveImage(char *iname)
+{
+	if (loadImage(iname)) {
+		m_pUI->m_origView->setView(VIEW_TYPE::DISSOLVE_VIEW);
+		return (1);
+	}
+}
+
+void ImpressionistDoc::edgeView()
+{
+	if (!m_ucBitmap) return;
+	static const char gx[][3] = { { -1, 0, 1 }, { -2, 0, 2 }, { -1, 0, 1 } };
+	static const char gy[][3] = { { -1, -2, -1 }, { 0, 0, 0 }, { 1, 2, 1 } };
+	unsigned char color[3][3];
+	int sumX = 0;
+	int sumY = 0;
+
+	for (int x = 0; x < m_nPaintWidth; x++)
+	{
+		for (int y = 0; y < m_nHeight; y++)
+		{
+			sumX = 0;
+			sumY = 0;
+			for (int i = 0; i < 3; i++)
+			{
+				for (int j = 0; j < 3; j++)
+				{
+					color[i][j] = (unsigned char)(GetOriginalPixel(x - 1 + j, y - 1 + i)[0] * 0.299 + 
+						GetOriginalPixel(x - 1 + j, y - 1 + i)[1] * 0.587 + 
+						GetOriginalPixel(x - 1 + j, y - 1 + i)[2] * 0.114
+					);
+					sumX += color[i][j] * gx[i][j];
+					sumY += color[i][j] * gy[i][j];
+				}
+			}
+			unsigned char color = 0;
+			if (sumX * sumX + sumY * sumY > m_pUI->getBrushEdgeThreshold() *  m_pUI->getBrushEdgeThreshold())
+			{
+				color = 0xFF;
+			}
+			
+			m_ucEdgeImage[3 * (y * m_nWidth + x)] = color;
+			m_ucEdgeImage[3 * (y * m_nWidth + x) + 1] = color;
+			m_ucEdgeImage[3 * (y * m_nWidth + x) + 2] = color;
+
+		}
+	}
+	m_pUI->m_origView->setView(VIEW_TYPE::EDGE_VIEW);
+}
+
+void ImpressionistDoc::anotherView()
+{
+	m_pUI->m_origView->setView(VIEW_TYPE::ANOTHER_VIEW);
+}

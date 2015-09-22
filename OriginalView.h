@@ -20,6 +20,14 @@
 
 class ImpressionistDoc;
 
+typedef enum
+{
+	ORIGINAL_VIEW = 0,
+	EDGE_VIEW,
+	ANOTHER_VIEW,
+	DISSOLVE_VIEW,
+}  VIEW_TYPE;
+
 class OriginalView : public Fl_Gl_Window
 {
 public:
@@ -30,13 +38,14 @@ public:
 
 	void resizeWindow(int width, int height);
 
-	void edgeImage();
+	void setView(int type);
 
 	ImpressionistDoc*	m_pDoc;
 
 private:
 	int	m_nWindowWidth, 
 		m_nWindowHeight;
+	int view;
 
 };
 

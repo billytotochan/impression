@@ -21,7 +21,9 @@ public:
 
 	int		loadImage(char *iname);			// called by the UI to load image
 	int		saveImage(char *iname);			// called by the UI to save image
-
+	int		loadEdgeImage(char *iname);
+	int		loadAnotherImage(char *iname);
+	int		loadDissolveImage(char *iname);
 
 	int     clearCanvas();                  // called by the UI to clear the drawing canvas
 	void	setBrushType(int type);			// called by the UI to set the brushType
@@ -29,6 +31,8 @@ public:
 	void	setBrushSize(int size);			// set the UI size
 	char*	getImageName();					// get the current image name
 	
+	void	edgeView();
+	void	anotherView();
 
 // Attributes
 public:
@@ -43,7 +47,7 @@ public:
 	unsigned char*	m_ucPainting;
 	unsigned char*	m_ucEdgeImage;
 	unsigned char*	m_ucAnotherImage;
-
+	unsigned char*	m_ucDissolveImage;
 
 	// The current active brush.
 	ImpBrush*		m_pCurrentBrush;

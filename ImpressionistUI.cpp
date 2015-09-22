@@ -181,7 +181,6 @@ void ImpressionistUI::cb_load_image(Fl_Menu_* o, void* v)
 	}
 }
 
-
 //------------------------------------------------------------------
 // Brings up a file chooser and then saves the painted image
 // This is called by the UI when the save image menu item is chosen
@@ -379,7 +378,7 @@ void ImpressionistUI::cb_brushDoItButton(Fl_Widget* o, void* v)
 {
 	ImpressionistDoc * pDoc = ((ImpressionistUI*)(o->user_data()))->getDocument();
 	// TODO
-	pDoc->m_pUI->m_origView->edgeImage();
+	pDoc->edgeView();
 }
 
 void ImpressionistUI::cb_paintlyStyleChoice(Fl_Widget* o, void* v)
@@ -483,7 +482,7 @@ void ImpressionistUI::cb_load_edge_image(Fl_Menu_* o, void* v)
 	// TODO
 	char* newfile = fl_file_chooser("Open File?", "*.bmp", pDoc->getImageName());
 	if (newfile != NULL) {
-		pDoc->loadImage(newfile);
+		pDoc->loadEdgeImage(newfile);
 	}
 }
 
@@ -495,6 +494,16 @@ void ImpressionistUI::cb_load_another_image(Fl_Menu_* o, void* v)
 	if (newfile != NULL) {
 		pDoc->loadImage(newfile);
 	}
+}
+
+void ImpressionistUI::cb_original_image(Fl_Menu_* o, void* v)
+{
+	whoami(o)->m_origView->setView(VIEW_TYPE::EDGE_VIEW);
+}
+
+void ImpressionistUI::cb_edge_image(Fl_Menu_* o, void* v)
+{
+	whoami(o)->m_origView->setView(VIEW_TYPE::EDGE_VIEW);
 }
 
 //---------------------------------- per instance functions --------------------------------------
@@ -782,8 +791,8 @@ Fl_Menu_Item ImpressionistUI::menuitems[] = {
 		{ 0 },
 
 	{ "&Display", 0, 0, 0, FL_SUBMENU },
-		{ "&Original Image", FL_ALT + 'o', (Fl_Callback *)ImpressionistUI::cb_about },
-		{ "&Edge Image", FL_ALT + 'e', (Fl_Callback *)ImpressionistUI::cb_about },
+		{ "&Original Image", FL_ALT + 'o', (Fl_Callback *)ImpressionistUI::cb_original_image },
+		{ "&Edge Image", FL_ALT + 'e', (Fl_Callback *)ImpressionistUI::cb_edge_image },
 		{ "&Another Image", FL_ALT + 'a', (Fl_Callback *)ImpressionistUI::cb_about },
 		{ 0 },
 
