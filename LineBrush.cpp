@@ -69,15 +69,13 @@ void LineBrush::BrushMove(const Point source, const Point target)
 				color[i][j] = tempC[0] * factorR + tempC[1] * factorG + tempC[2] * factorB;
 				//printf("%d ,", colorR[i][j]);
 
-				//RGx += sobelX[i][j] * colorR[i][j];
-				//RGy += sobelY[i][j] * colorR[i][j];
-				//GGx += sobelX[i][j] * colorG[i][j];
-				//GGy += sobelY[i][j] * colorG[i][j];
-				//BGx += sobelX[i][j] * colorB[i][j];
-				//BGy += sobelY[i][j] * colorB[i][j];
-				Gx += color[i][j] * sobelX[i][j];
-				Gy += color[i][j] * sobelY[i][j];
-
+				RGx += sobelX[i][j] * colorR[i][j];
+				RGy += sobelY[i][j] * colorR[i][j];
+				GGx += sobelX[i][j] * colorG[i][j];
+				GGy += sobelY[i][j] * colorG[i][j];
+				BGx += sobelX[i][j] * colorB[i][j];
+				BGy += sobelY[i][j] * colorB[i][j];
+				
 			}
 		}
 		float angle = 0;

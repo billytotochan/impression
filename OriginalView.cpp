@@ -12,6 +12,9 @@
 #define min(a, b)	( ( (a)<(b) ) ? (a) : (b) )
 #endif
 
+static int		eventToDo;
+static Point	coord;
+
 OriginalView::OriginalView(int			x, 
 						   int			y, 
 						   int			w, 
@@ -59,22 +62,41 @@ void OriginalView::draw()
 		scrollpos.x=scrollpos.y=0;
 
 		drawWidth	= min( m_nWindowWidth, m_pDoc->m_nWidth );
-		drawHeight	= min( m_nWindowHeight, m_pDoc->m_nHeight );
+		drawHeight = min(m_nWindowHeight, m_pDoc->m_nHeight);
 
 		int	startrow	= m_pDoc->m_nHeight - (scrollpos.y + drawHeight);
 		if ( startrow < 0 ) 
 			startrow = 0;
 
+		int m_nStartRow = startrow;
+		int m_nEndRow = startrow + drawHeight;
+		int m_nStartCol = scrollpos.x;
+		int m_nEndCol = m_nStartCol + drawWidth;
 
 		bitstart = m_pDoc->m_ucBitmap + 3 * ((m_pDoc->m_nWidth * startrow) + scrollpos.x);
 
 		// just copy image to GLwindow conceptually
-		glRasterPos2i( 0, m_nWindowHeight - drawHeight );
-		glPixelStorei( GL_UNPACK_ALIGNMENT, 1 );
-		glPixelStorei( GL_UNPACK_ROW_LENGTH, m_pDoc->m_nWidth );
-		glDrawBuffer( GL_BACK );
-		glDrawPixels( drawWidth, drawHeight, GL_RGB, GL_UNSIGNED_BYTE, bitstart );
+		glRasterPos2i(0, m_nWindowHeight - drawHeight);
+		glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+		glPixelStorei(GL_UNPACK_ROW_LENGTH, m_pDoc->m_nWidth);
+		glDrawBuffer(GL_BACK);
+		glDrawPixels(drawWidth, drawHeight, GL_RGB, GL_UNSIGNED_BYTE, bitstart);
+		
+		//testing
+		Point target(coord.x, m_nWindowHeight - coord.y);
 
+		glBegin(GL_LINE);
+
+		GLubyte color[3];
+		color[0] = GLubyte(255);
+		color[1] = GLubyte(0);
+		color[2] = GLubyte(0);
+
+		glColor3ubv(color);
+		glVertex2d(target.x, target.y);
+		//testing end
+
+		glEnd();
 	}
 			
 	glFlush();
