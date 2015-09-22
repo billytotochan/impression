@@ -264,6 +264,30 @@ void ImpressionistUI::cb_brushChoice(Fl_Widget* o, void* v)
 
 	int type = (int)v;
 
+	switch (type)
+	{
+	case BRUSH_POINTS:
+	case BRUSH_CIRCLES:
+	case BRUSH_SCATTERED_POINTS:
+	case BRUSH_SCATTERED_CIRCLES:
+		pUI->m_BrushLineWidthSlider->deactivate();
+		pUI->m_BrushLineAngleSlider->deactivate();
+		pUI->m_BrushStrokeDirectionChoice->deactivate();
+		pUI->m_BrushEdgeClippingLightButton->deactivate();
+		pUI->m_BrushAnotherGradientLightButton->deactivate();
+		break;
+	case BRUSH_LINES:
+	case BRUSH_SCATTERED_LINES:
+		pUI->m_BrushLineWidthSlider->activate();
+		pUI->m_BrushLineAngleSlider->activate();
+		pUI->m_BrushStrokeDirectionChoice->activate();
+		pUI->m_BrushEdgeClippingLightButton->activate();
+		pUI->m_BrushAnotherGradientLightButton->activate();
+		break;
+	default:
+		break;
+	}
+
 	pDoc->setBrushType(type);
 }
 
@@ -343,7 +367,42 @@ void ImpressionistUI::cb_brushEdgeThresholdSlides(Fl_Widget* o, void* v)
 
 void ImpressionistUI::cb_paintlyStyleChoice(Fl_Widget* o, void* v)
 {
-	((ImpressionistUI*)(o->user_data()))->m_nPaintlyStyle = int(v);
+	ImpressionistUI* pUI = ((ImpressionistUI *)(o->user_data()));
+	int type = int(v);
+	switch (type)
+	{			
+	case STYLE_IMPRESSIONIST:
+	case STYLE_EXPRESSIONIST:
+	case STYLE_COLOR_WASH:
+	case STYLE_POINTILLIST:
+		pUI->m_PaintlyStrokeChoice->deactivate();
+		pUI->m_PaintlyThresholdSlider->deactivate();
+		pUI->m_PaintlyCurvatureSlider->deactivate();
+		pUI->m_PaintlyBlurSlider->deactivate();
+		pUI->m_PaintlyGridSizeSlider->deactivate();
+		pUI->m_PaintlyMinStrokeLengthSlider->deactivate();
+		pUI->m_PaintlyMaxStrokeLengthSlider->deactivate();
+		pUI->m_PaintlyAlphaSlider->deactivate();
+		pUI->m_PaintlyLayerSlider->deactivate();
+		pUI->m_PaintlyR0LevelSlider->deactivate();
+		break;
+	case STYLE_CUSTOMIZE:
+		pUI->m_PaintlyStrokeChoice->activate();
+		pUI->m_PaintlyThresholdSlider->activate();
+		pUI->m_PaintlyCurvatureSlider->activate();
+		pUI->m_PaintlyBlurSlider->activate();
+		pUI->m_PaintlyGridSizeSlider->activate();
+		pUI->m_PaintlyMinStrokeLengthSlider->activate();
+		pUI->m_PaintlyMaxStrokeLengthSlider->activate();
+		pUI->m_PaintlyAlphaSlider->activate();
+		pUI->m_PaintlyLayerSlider->activate();
+		pUI->m_PaintlyR0LevelSlider->activate();
+		break;
+	default:
+		break;
+	}
+
+	pUI->m_nPaintlyStyle = type;
 }
 void ImpressionistUI::cb_paintlyStrokeChoice(Fl_Widget* o, void* v)
 {
