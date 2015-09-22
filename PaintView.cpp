@@ -182,7 +182,7 @@ void PaintView::draw()
 				else{
 					m_pDoc->m_pUI->setBrushSize( size);
 				}
-				m_pDoc->m_pUI->setBrushLineAngle(atan((float)(target.y - original.y) / (target.x - original.x)) * 180 / M_PI + 180);
+				m_pDoc->m_pUI->setBrushLineAngle(atan((float)(target.y - original.y) / (float)(target.x - original.x)) * 180 / M_PI + 180);
 			}
 			RestoreContent();
 

@@ -30,6 +30,8 @@ public:
 
 	void resizeWindow(int width, int height);
 
+	void edgeImage();
+
 	ImpressionistDoc*	m_pDoc;
 
 private:

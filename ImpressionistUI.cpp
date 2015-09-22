@@ -277,6 +277,7 @@ void ImpressionistUI::cb_brushChoice(Fl_Widget* o, void* v)
 	case BRUSH_CIRCLES:
 	case BRUSH_SCATTERED_POINTS:
 	case BRUSH_SCATTERED_CIRCLES:
+	case BRUSH_TRIANGLES:
 		pUI->m_BrushLineWidthSlider->deactivate();
 		pUI->m_BrushLineAngleSlider->deactivate();
 		pUI->m_BrushStrokeDirectionChoice->deactivate();
@@ -373,6 +374,13 @@ void ImpressionistUI::cb_brushEdgeThresholdSlides(Fl_Widget* o, void* v)
 	((ImpressionistUI*)(o->user_data()))->m_nBrushEdgeThreshold = int(((Fl_Slider *)o)->value());
 }
 
+void ImpressionistUI::cb_brushDoItButton(Fl_Widget* o, void* v)
+{
+	ImpressionistDoc * pDoc = ((ImpressionistUI*)(o->user_data()))->getDocument();
+	// TODO
+	pDoc->m_pUI->m_origView->edgeImage();
+}
+
 void ImpressionistUI::cb_paintlyStyleChoice(Fl_Widget* o, void* v)
 {
 	ImpressionistUI* pUI = ((ImpressionistUI *)(o->user_data()));
@@ -466,13 +474,6 @@ void ImpressionistUI::cb_paintlyLayerSlides(Fl_Widget* o, void* v)
 void ImpressionistUI::cb_paintlyR0LevelSlides(Fl_Widget* o, void* v)
 {
 	((ImpressionistUI*)(o->user_data()))->m_nPaintlyR0Level = int(((Fl_Slider *)o)->value());
-}
-
-void ImpressionistUI::cb_brushDoItButton(Fl_Widget* o, void* v)
-{
-	ImpressionistDoc * pDoc = ((ImpressionistUI*)(o->user_data()))->getDocument();
-	// TODO
-	pDoc->clearCanvas();
 }
 
 void ImpressionistUI::cb_load_edge_image(Fl_Menu_* o, void* v)
@@ -805,6 +806,7 @@ Fl_Menu_Item ImpressionistUI::brushTypeMenu[NUM_BRUSH_TYPE + 1] = {
 	{ "Scattered Points", FL_ALT + 'q', (Fl_Callback *)ImpressionistUI::cb_brushChoice, (void *)BRUSH_SCATTERED_POINTS },
 	{ "Scattered Lines", FL_ALT + 'm', (Fl_Callback *)ImpressionistUI::cb_brushChoice, (void *)BRUSH_SCATTERED_LINES },
 	{ "Scattered Circles", FL_ALT + 'd', (Fl_Callback *)ImpressionistUI::cb_brushChoice, (void *)BRUSH_SCATTERED_CIRCLES },
+	{ "Triangles", FL_ALT + 't', (Fl_Callback *)ImpressionistUI::cb_brushChoice, (void *)BRUSH_TRIANGLES },
 	{ 0 }
 };
 
