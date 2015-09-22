@@ -333,7 +333,8 @@ void ImpressionistUI::cb_brushPaintButton(Fl_Widget* o, void* v)
 {
 	ImpressionistDoc * pDoc = ((ImpressionistUI*)(o->user_data()))->getDocument();
 	// TODO
-	pDoc->clearCanvas();
+	pDoc->m_pUI->m_paintView->setDrawAll();
+	//pDoc->clearCanvas();
 }
 
 void ImpressionistUI::cb_brushEdgeThresholdSlides(Fl_Widget* o, void* v)

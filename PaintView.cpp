@@ -25,6 +25,7 @@
 #endif
 
 static int		eventToDo;
+static int		isDrawAll = 0;
 static int		isAnEvent=0;
 static Point	coord;
 
@@ -88,6 +89,9 @@ void PaintView::draw()
 	m_nStartCol		= scrollpos.x;
 	m_nEndCol		= m_nStartCol + drawWidth;
 
+	if (isDrawAll){
+		isDrawAll = 0;
+	}
 	if ( m_pDoc->m_ucPainting && !isAnEvent) 
 	{
 		RestoreContent();
@@ -269,4 +273,9 @@ void PaintView::RestoreContent()
 				  m_pPaintBitstart);
 
 //	glDrawBuffer(GL_FRONT);
+}
+
+void PaintView::setDrawAll()
+{
+	isDrawAll = 1;
 }
