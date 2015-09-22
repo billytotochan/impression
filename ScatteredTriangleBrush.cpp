@@ -40,7 +40,7 @@ void ScatteredTriangleBrush::BrushMove(const Point source, const Point target)
 	glMatrixMode(GL_MODELVIEW);
 
 	glPushMatrix();
-	for (int i = 0; i < 5; i++){
+	for (int i = 0; i < 3; i++){
 
 		glBegin(GL_TRIANGLES);
 

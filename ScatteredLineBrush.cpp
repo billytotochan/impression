@@ -1,29 +1,29 @@
 //
-// LineBrush.cpp
+// ScatteredLineBrush.cpp
 //
-// The implementation of Line Brush. It is a kind of ImpBrush. All your brush implementations
+// The implementation of Scattered Line Brush. It is a kind of ImpBrush. All your brush implementations
 // will look like the file with the different GL primitive calls.
 //
 
 #include "impressionistDoc.h"
 #include "impressionistUI.h"
-#include "linebrush.h"
+#include "scatteredlinebrush.h"
 
 extern float frand();
 
-LineBrush::LineBrush(ImpressionistDoc* pDoc, char* name) :
+ScatteredLineBrush::ScatteredLineBrush(ImpressionistDoc* pDoc, char* name) :
 ImpBrush(pDoc, name)
 {
 }
 
-void LineBrush::BrushBegin(const Point source, const Point target)
+void ScatteredLineBrush::BrushBegin(const Point source, const Point target)
 {
 	ImpressionistDoc* pDoc = GetDocument();
 	ImpressionistUI* dlg = pDoc->m_pUI;
 
-	m_size = (float) pDoc->getBrushSize();
+	m_size = (float)pDoc->getBrushSize();
 	m_lineWidth = (float)dlg->getBrushLineWidth();
-	m_lineAngle = (float) dlg->getBrushLineAngle();
+	m_lineAngle = (float)dlg->getBrushLineAngle();
 	m_brushType = dlg->getBrushStrokeDirection();
 
 	//glPointSize(m_size);
@@ -31,10 +31,11 @@ void LineBrush::BrushBegin(const Point source, const Point target)
 	BrushMove(source, target);
 }
 
-void LineBrush::BrushMove(const Point source, const Point target)
+void ScatteredLineBrush::BrushMove(const Point source, const Point target)
 {
 	ImpressionistDoc* pDoc = GetDocument();
 	ImpressionistUI* dlg = pDoc->m_pUI;
+	float Ax, Ay;
 
 	if (pDoc == NULL) {
 	}
@@ -46,13 +47,13 @@ void LineBrush::BrushMove(const Point source, const Point target)
 		float factorG = 0.6f;
 		float factorB = 0.11f;
 
-		int sobelX[3][3] = {{ -1, -2, -1 },
-							{ 0, 0, 0 },
-							{ 1, 2, 1 }};
+		int sobelX[3][3] = { { -1, -2, -1 },
+		{ 0, 0, 0 },
+		{ 1, 2, 1 } };
 
-		int sobelY[3][3] = {{ -1,0,1 }, 
-							{ -2,0,2 }, 
-							{ -1,0,1 }};
+		int sobelY[3][3] = { { -1, 0, 1 },
+		{ -2, 0, 2 },
+		{ -1, 0, 1 } };
 
 		GLubyte colorR[3][3], colorG[3][3], colorB[3][3];
 		float color[3][3];
@@ -77,14 +78,14 @@ void LineBrush::BrushMove(const Point source, const Point target)
 				//BGy += sobelY[i][j] * colorB[i][j];
 				Gx += sobelX[i][j] * color[i][j];
 				Gy += sobelY[i][j] * color[i][j];
-				
+
 			}
 		}
 		float angle = 0;
 		//angle += atan2((float)RGy, (float)RGx) * 180 / M_PI + 180;
 		//angle += atan2((float)GGy, (float)GGx) * 180 / M_PI + 180;
 		//angle += atan2((float)BGy, (float)BGx) * 180 / M_PI + 180;
-		angle += atan2((float)Gy, (float)Gx) * 180 / M_PI + 90;
+		angle += atan2((float)Gy, (float)Gx) * 180 / M_PI;
 		m_lineAngle = angle;
 
 		//printf("%f ,", m_lineAngle);
@@ -93,7 +94,7 @@ void LineBrush::BrushMove(const Point source, const Point target)
 		//printf("%d ,%d \n", BGx, BGy);
 
 	}
-	else if ( m_brushType == STROKE_DIRECTION_BRUSH_DIRECTION){
+	else if (m_brushType == STROKE_DIRECTION_BRUSH_DIRECTION){
 		m_lineAngle = pDoc->m_pUI->m_paintView->getBrushDirection();
 	}
 
@@ -103,7 +104,7 @@ void LineBrush::BrushMove(const Point source, const Point target)
 	float dy = 0;
 
 
-	if (( m_lineAngle > 45 && m_lineAngle < 135 ) || ( m_lineAngle > 225 && m_lineAngle < 315)){
+	if ((m_lineAngle > 45 && m_lineAngle < 135) || (m_lineAngle > 225 && m_lineAngle < 315)){
 		dx = m_lineWidth / 2;
 	}
 	else{
@@ -113,22 +114,29 @@ void LineBrush::BrushMove(const Point source, const Point target)
 	//glPushMatrix();
 	//glTranslatef(target.x, target.y, 0.0f);
 	//glRotatef(m_lineAngle, 0, 0, 1.0f);
-	glBegin(GL_TRIANGLE_STRIP);
-	SetColor(source);
+	for (int i = 0; i < 3; i++){
+		glBegin(GL_TRIANGLE_STRIP);
 
-	glVertex2f(target.x + add_x + dx, target.y + add_y + dy);
-	glVertex2f(target.x + add_x - dx, target.y + add_y - dy);
-	glVertex2f(target.x - add_x + dx, target.y - add_y + dy);
-	glVertex2f(target.x - add_x - dx, target.y - add_y - dy);
+		Ax = target.x - m_size / 2 + rand() % (int)m_size;
+		Ay = target.y - m_size / 2 + rand() % (int)m_size;
+		SetColor(Point((int)Ax, (int)Ay));
+
+		glVertex2f(Ax + add_x + dx, Ay + add_y + dy);
+		glVertex2f(Ax + add_x - dx, Ay + add_y - dy);
+		glVertex2f(Ax - add_x + dx, Ay - add_y + dy);
+		glVertex2f(Ax - add_x - dx, Ay - add_y - dy);
+
+		//glVertex2f(m_size / 2, -m_lineWidth / 2);
+		//glVertex2f(-m_size / 2, m_lineWidth / 2);
+		//glVertex2f(m_size / 2, m_lineWidth / 2);
+		glEnd();
+	}
+
 	
-	//glVertex2f(m_size / 2, -m_lineWidth / 2);
-	//glVertex2f(-m_size / 2, m_lineWidth / 2);
-	//glVertex2f(m_size / 2, m_lineWidth / 2);
-	glEnd();
 	//glPopMatrix();
 }
 
-void LineBrush::BrushEnd(const Point source, const Point target)
+void ScatteredLineBrush::BrushEnd(const Point source, const Point target)
 {
 	// do nothing so far
 }
