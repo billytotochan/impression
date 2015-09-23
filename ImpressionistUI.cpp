@@ -522,6 +522,16 @@ void ImpressionistUI::cb_edge_image(Fl_Menu_* o, void* v)
 	whoami(o)->m_origView->setView(VIEW_TYPE::EDGE_VIEW);
 }
 
+void ImpressionistUI::cb_dissolve_image(Fl_Menu_* o, void* v)
+{
+	ImpressionistDoc *pDoc = whoami(o)->getDocument();
+	// TODO
+	char* newfile = fl_file_chooser("Open File?", "*.bmp", pDoc->getImageName());
+	if (newfile != NULL) {
+		pDoc->loadDissolveImage(newfile);
+	}
+}
+
 //---------------------------------- per instance functions --------------------------------------
 
 //------------------------------------------------
@@ -841,6 +851,7 @@ Fl_Menu_Item ImpressionistUI::menuitems[] = {
 		{ "&Original Image", FL_ALT + 'o', (Fl_Callback *)ImpressionistUI::cb_original_image },
 		{ "&Edge Image", FL_ALT + 'e', (Fl_Callback *)ImpressionistUI::cb_edge_image },
 		{ "&Another Image", FL_ALT + 'a', (Fl_Callback *)ImpressionistUI::cb_about },
+		{ "&Dissolve Image", FL_ALT + 'd', (Fl_Callback *)ImpressionistUI::cb_dissolve_image },
 		{ 0 },
 
 	{ "&Options", 0, 0, 0, FL_SUBMENU },

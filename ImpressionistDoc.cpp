@@ -241,10 +241,18 @@ int ImpressionistDoc::loadAnotherImage(char *iname)
 
 int ImpressionistDoc::loadDissolveImage(char *iname)
 {
-	if (loadImage(iname)) {
-		m_pUI->m_origView->setView(VIEW_TYPE::DISSOLVE_VIEW);
-		return (1);
+	unsigned char*	data;
+	int				width,
+					height;
+
+	if ((data = readBMP(iname, width, height)) == NULL)
+	{
+		fl_alert("Can't load bitmap file");
+		return 0;
 	}
+	dissolveView( data, width, height);
+	m_pUI->m_origView->setView(VIEW_TYPE::DISSOLVE_VIEW);
+	return (1);
 }
 
 void ImpressionistDoc::edgeView()
@@ -285,4 +293,22 @@ void ImpressionistDoc::edgeView()
 
 void ImpressionistDoc::anotherView()
 {
+}
+
+void ImpressionistDoc::dissolveView( unsigned char* src, int width, int height)
+{
+	if (!m_ucBitmap || !src) return;
+	memcpy(m_ucDissolveImage, m_ucBitmap, m_nWidth * m_nHeight * 3);
+	int dissolveWidth = ( (width > m_nWidth) ? m_nWidth : width);
+	int dissolveHeight = ( (height > m_nHeight) ? m_nHeight : height);
+	for (int i = 0; i < dissolveWidth; i ++){
+		int j = i % 2;
+		for (; j < dissolveHeight - 1; j += 2){
+			m_ucDissolveImage[3 * ((m_nHeight - j - 1) * m_nWidth + i)]		= src[3 * ((height - j - 1) * width + i)];
+			m_ucDissolveImage[3 * ((m_nHeight - j - 1) * m_nWidth + i) + 1]	= src[3 * ((height - j - 1) * width + i) + 1];
+			m_ucDissolveImage[3 * ((m_nHeight - j - 1) * m_nWidth + i) + 2]	= src[3 * ((height - j - 1) * width + i) + 2];
+		}	
+	}
+	printf(" %d, %d\n", m_nWidth * m_nHeight, width * height);
+	
 }

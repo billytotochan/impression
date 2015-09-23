@@ -33,6 +33,7 @@ public:
 	
 	void	edgeView();
 	void	anotherView();
+	void	dissolveView( unsigned char * src, int width, int height);
 
 // Attributes
 public:

@@ -42,7 +42,7 @@ void ScatteredPointBrush::BrushMove(const Point source, const Point target)
 	glPointSize(1.0);
 	glBegin(GL_POINTS);
 
-	for (int i = 0; i < 1000; i++){
+	for (int i = 0; i < 25; i++){
 		Ax = target.x - m_size / 2 + rand() % (int) m_size;
 		Ay = target.y - m_size / 2 + rand() % (int) m_size;
 		SetColor(Point((int) Ax, (int) Ay));

@@ -224,7 +224,8 @@ int PaintView::handle(int event)
 			eventToDo=RIGHT_MOUSE_DOWN;
 		else
 			eventToDo=LEFT_MOUSE_DOWN;
-		isAnEvent=1;
+		isAnEvent = 1;
+		m_pDoc->m_pUI->m_origView->drawPointer(coord);
 		redraw();
 		break;
 	case FL_DRAG:
@@ -234,7 +235,8 @@ int PaintView::handle(int event)
 			eventToDo=RIGHT_MOUSE_DRAG;
 		else
 			eventToDo=LEFT_MOUSE_DRAG;
-		isAnEvent=1;
+		isAnEvent = 1;
+		m_pDoc->m_pUI->m_origView->drawPointer(coord);
 		redraw();
 		break;
 	case FL_RELEASE:
@@ -244,7 +246,8 @@ int PaintView::handle(int event)
 			eventToDo=RIGHT_MOUSE_UP;
 		else
 			eventToDo=LEFT_MOUSE_UP;
-		isAnEvent=1;
+		isAnEvent = 1;
+		m_pDoc->m_pUI->m_origView->drawPointer(coord);
 		redraw();
 		break;
 	case FL_MOVE:
