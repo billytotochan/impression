@@ -42,10 +42,14 @@ void LineBrush::BrushMove(const Point source, const Point target)
 	glMatrixMode(GL_MODELVIEW);
 
 	if (m_brushType == STROKE_DIRECTION_GRADIENT){
-		float factorR = 0.3f;
-		float factorG = 0.6f;
-		float factorB = 0.11f;
+		float factorR = 0.299f;
+		float factorG = 0.587f;
+		float factorB = 0.114f;
 
+		static const int sobelX[][3] = { { -1, 0, 1 }, { -2, 0, 2 }, { -1, 0, 1 } };
+		static const int sobelY[][3] = { { -1, -2, -1 }, { 0, 0, 0 }, { 1, 2, 1 } };
+
+		/*
 		int sobelX[3][3] = {{ -1, -2, -1 },
 							{ 0, 0, 0 },
 							{ 1, 2, 1 }};
@@ -53,6 +57,7 @@ void LineBrush::BrushMove(const Point source, const Point target)
 		int sobelY[3][3] = {{ -1,0,1 }, 
 							{ -2,0,2 }, 
 							{ -1,0,1 }};
+		*/
 
 		GLubyte colorR[3][3], colorG[3][3], colorB[3][3];
 		float color[3][3];
@@ -60,7 +65,7 @@ void LineBrush::BrushMove(const Point source, const Point target)
 		float Gx = 0, Gy = 0;
 		for (int i = 0; i < 3; i++){
 			for (int j = 0; j < 3; j++){
-				Point temp(source.x + j - 1, source.y + i - 1);
+				Point temp(source.x + i - 1, source.y + j - 1);
 				GLubyte tempC[3];
 				memcpy(tempC, pDoc->GetOriginalPixel(temp), 3);
 				//colorR[i][j] = tempC[0];
@@ -84,7 +89,7 @@ void LineBrush::BrushMove(const Point source, const Point target)
 		//angle += atan2((float)RGy, (float)RGx) * 180 / M_PI + 180;
 		//angle += atan2((float)GGy, (float)GGx) * 180 / M_PI + 180;
 		//angle += atan2((float)BGy, (float)BGx) * 180 / M_PI + 180;
-		angle += atan2((float)Gy, (float)Gx) * 180 / M_PI + 90;
+		angle += atan2( Gy, Gx) * 180 / M_PI;
 		m_lineAngle = angle;
 
 		//printf("%f ,", m_lineAngle);
