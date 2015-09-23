@@ -379,6 +379,7 @@ void ImpressionistUI::cb_brushDoItButton(Fl_Widget* o, void* v)
 	ImpressionistDoc * pDoc = ((ImpressionistUI*)(o->user_data()))->getDocument();
 	// TODO
 	pDoc->edgeView();
+	pDoc->m_pUI->m_origView->setView(VIEW_TYPE::EDGE_VIEW);
 }
 
 void ImpressionistUI::cb_paintlyStyleChoice(Fl_Widget* o, void* v)
@@ -498,7 +499,7 @@ void ImpressionistUI::cb_load_another_image(Fl_Menu_* o, void* v)
 
 void ImpressionistUI::cb_original_image(Fl_Menu_* o, void* v)
 {
-	whoami(o)->m_origView->setView(VIEW_TYPE::EDGE_VIEW);
+	whoami(o)->m_origView->setView(VIEW_TYPE::ORIGINAL_VIEW);
 }
 
 void ImpressionistUI::cb_edge_image(Fl_Menu_* o, void* v)

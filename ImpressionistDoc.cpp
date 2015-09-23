@@ -226,6 +226,7 @@ int ImpressionistDoc::loadEdgeImage(char *iname)
 {
 	if (loadImage(iname)) {
 		edgeView();
+		m_pUI->m_origView->setView(VIEW_TYPE::EDGE_VIEW);
 		return (1);
 	}
 }
@@ -252,30 +253,25 @@ void ImpressionistDoc::edgeView()
 	static const char gx[][3] = { { -1, 0, 1 }, { -2, 0, 2 }, { -1, 0, 1 } };
 	static const char gy[][3] = { { -1, -2, -1 }, { 0, 0, 0 }, { 1, 2, 1 } };
 	unsigned char color[3][3];
-	int sumX = 0;
-	int sumY = 0;
+	int gxSum = 0;
+	int gySum = 0;
 
-	for (int x = 0; x < m_nPaintWidth; x++)
-	{
-		for (int y = 0; y < m_nHeight; y++)
-		{
-			sumX = 0;
-			sumY = 0;
-			for (int i = 0; i < 3; i++)
-			{
-				for (int j = 0; j < 3; j++)
-				{
+	for (int x = 0; x < m_nPaintWidth; x++)	{
+		for (int y = 0; y < m_nHeight; y++)	{
+			gxSum = 0;
+			gySum = 0;
+			for (int i = 0; i < 3; i++)	{
+				for (int j = 0; j < 3; j++)	{
 					color[i][j] = (unsigned char)(GetOriginalPixel(x - 1 + j, y - 1 + i)[0] * 0.299 + 
 						GetOriginalPixel(x - 1 + j, y - 1 + i)[1] * 0.587 + 
 						GetOriginalPixel(x - 1 + j, y - 1 + i)[2] * 0.114
 					);
-					sumX += color[i][j] * gx[i][j];
-					sumY += color[i][j] * gy[i][j];
+					gxSum += color[i][j] * gx[i][j];
+					gySum += color[i][j] * gy[i][j];
 				}
 			}
 			unsigned char color = 0;
-			if (sumX * sumX + sumY * sumY > m_pUI->getBrushEdgeThreshold() *  m_pUI->getBrushEdgeThreshold())
-			{
+			if (sqrt(gxSum * gxSum + gySum * gySum) > m_pUI->getBrushEdgeThreshold()) {
 				color = 0xFF;
 			}
 			
@@ -285,10 +281,8 @@ void ImpressionistDoc::edgeView()
 
 		}
 	}
-	m_pUI->m_origView->setView(VIEW_TYPE::EDGE_VIEW);
 }
 
 void ImpressionistDoc::anotherView()
 {
-	m_pUI->m_origView->setView(VIEW_TYPE::ANOTHER_VIEW);
 }
