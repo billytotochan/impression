@@ -301,6 +301,7 @@ void ImpressionistDoc::dissolveView( unsigned char* src, int width, int height)
 	memcpy(m_ucDissolveImage, m_ucBitmap, m_nWidth * m_nHeight * 3);
 	int dissolveWidth = ( (width > m_nWidth) ? m_nWidth : width);
 	int dissolveHeight = ( (height > m_nHeight) ? m_nHeight : height);
+	/*
 	for (int i = 0; i < dissolveWidth; i ++){
 		int j = i % 2;
 		for (; j < dissolveHeight - 1; j += 2){
@@ -308,6 +309,19 @@ void ImpressionistDoc::dissolveView( unsigned char* src, int width, int height)
 			m_ucDissolveImage[3 * ((m_nHeight - j - 1) * m_nWidth + i) + 1]	= src[3 * ((height - j - 1) * width + i) + 1];
 			m_ucDissolveImage[3 * ((m_nHeight - j - 1) * m_nWidth + i) + 2]	= src[3 * ((height - j - 1) * width + i) + 2];
 		}	
+	}
+	*/
+
+	// Dissolve Selected Image to original image, repeat if needed
+	for (int i = 0; i < m_nWidth; i++){
+		int j = i % 2;
+		for (; j < m_nHeight - 1; j += 2){
+			int srcI = i % width;
+			int srcJ = j % height;
+			m_ucDissolveImage[3 * ((m_nHeight - j - 1) * m_nWidth + i)] = src[3 * ((height - srcJ - 1) * width + srcI)];
+			m_ucDissolveImage[3 * ((m_nHeight - j - 1) * m_nWidth + i) + 1] = src[3 * ((height - srcJ - 1) * width + srcI) + 1];
+			m_ucDissolveImage[3 * ((m_nHeight - j - 1) * m_nWidth + i) + 2] = src[3 * ((height - srcJ - 1) * width + srcI) + 2];
+		}
 	}
 	printf(" %d, %d\n", m_nWidth * m_nHeight, width * height);
 	
