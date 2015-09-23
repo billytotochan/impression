@@ -22,6 +22,7 @@ void TriangleBrush::BrushBegin(const Point source, const Point target)
 	ImpressionistUI* dlg = pDoc->m_pUI;
 
 	m_size = (float)pDoc->getBrushSize();
+	m_angle = (float)dlg->getBrushLineAngle();
 
 	glPointSize(m_size);
 
@@ -40,12 +41,20 @@ void TriangleBrush::BrushMove(const Point source, const Point target)
 
 	glPushMatrix();
 
-	glBegin(GL_TRIANGLES);
-	SetColor(source);
-	glVertex3f(target.x - 0.5 * m_size, target.y - 0.5 * m_size, 0.0);
-	glVertex3f(target.x + 0.5 * m_size, target.y - 0.5 * m_size, 0.0);
-	glVertex3f(target.x , target.y + 0.5 * m_size, 0.0);
-	glEnd();
+		glTranslatef(target.x, target.y, 0);
+		glRotatef(m_angle, 0, 0, 1);
+		glTranslatef(-target.x, -target.y, 0);
+
+		glBegin(GL_TRIANGLES);
+
+			SetColor(source);
+			glVertex3f(target.x - 0.5 * m_size, target.y - 0.5 * m_size, 0.0);
+			glVertex3f(target.x + 0.5 * m_size, target.y - 0.5 * m_size, 0.0);
+			glVertex3f(target.x , target.y + 0.5 * m_size, 0.0);
+
+		glEnd();
+
+	glPopMatrix();
 }
 
 void TriangleBrush::BrushEnd(const Point source, const Point target)

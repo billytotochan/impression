@@ -22,6 +22,7 @@ void ScatteredTriangleBrush::BrushBegin(const Point source, const Point target)
 	ImpressionistUI* dlg = pDoc->m_pUI;
 
 	m_size = (float)pDoc->getBrushSize();
+	m_angle = (float)dlg->getBrushLineAngle();
 
 	glPointSize(m_size);
 
@@ -39,19 +40,24 @@ void ScatteredTriangleBrush::BrushMove(const Point source, const Point target)
 
 	glMatrixMode(GL_MODELVIEW);
 
-	glPushMatrix();
 	for (int i = 0; i < 3; i++){
-
-		glBegin(GL_TRIANGLES);
-
 		Ax = target.x - m_size / 2 + rand() % (int)m_size;
 		Ay = target.y - m_size / 2 + rand() % (int)m_size;
 		SetColor(Point((int)Ax, (int)Ay));
-		glVertex3f(Ax - 0.5 * m_size, Ay - 0.5 * m_size, 0.0);
-		glVertex3f(Ax + 0.5 * m_size, Ay - 0.5 * m_size, 0.0);
-		glVertex3f(Ax, Ay + 0.5 * m_size, 0.0);
+		glPushMatrix();
+		
+			glTranslatef(Ax, Ay, 0);
+			glRotatef(m_angle, 0, 0, 1);
+			glTranslatef(-Ax, -Ay, 0);
 
-		glEnd();
+			glBegin(GL_TRIANGLES);
+
+				glVertex3f(Ax - 0.5 * m_size, Ay - 0.5 * m_size, 0.0);
+				glVertex3f(Ax + 0.5 * m_size, Ay - 0.5 * m_size, 0.0);
+				glVertex3f(Ax, Ay + 0.5 * m_size, 0.0);
+
+			glEnd();
+		glPopMatrix();
 	}
 }
 

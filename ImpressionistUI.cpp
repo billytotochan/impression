@@ -276,10 +276,16 @@ void ImpressionistUI::cb_brushChoice(Fl_Widget* o, void* v)
 	case BRUSH_CIRCLES:
 	case BRUSH_SCATTERED_POINTS:
 	case BRUSH_SCATTERED_CIRCLES:
+		pUI->m_BrushLineWidthSlider->deactivate();
+		pUI->m_BrushLineAngleSlider->deactivate();
+		pUI->m_BrushStrokeDirectionChoice->deactivate();
+		pUI->m_BrushEdgeClippingLightButton->deactivate();
+		pUI->m_BrushAnotherGradientLightButton->deactivate();
+		break;
 	case BRUSH_TRIANGLES:
 	case BRUSH_SCATTERED_TRIANGLES:
 		pUI->m_BrushLineWidthSlider->deactivate();
-		pUI->m_BrushLineAngleSlider->deactivate();
+		pUI->m_BrushLineAngleSlider->activate();
 		pUI->m_BrushStrokeDirectionChoice->deactivate();
 		pUI->m_BrushEdgeClippingLightButton->deactivate();
 		pUI->m_BrushAnotherGradientLightButton->deactivate();

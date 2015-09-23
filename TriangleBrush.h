@@ -22,6 +22,7 @@ public:
 private:
 
 	float m_size;
+	float m_angle;
 };
 
 #endif
