@@ -101,9 +101,13 @@ void OriginalView::draw()
 		glDrawPixels(drawWidth, drawHeight, GL_RGB, GL_UNSIGNED_BYTE, bitstart);
 
 		//testing
+		//glDrawBuffer(GL_FRONT);
+
 		Point target(coord.x, m_nWindowHeight - coord.y);
 
-		glBegin(GL_LINE);
+		glPointSize(5);
+		glBegin(GL_POINT);
+
 
 		GLubyte color[3];
 		color[0] = GLubyte(255);
@@ -112,9 +116,11 @@ void OriginalView::draw()
 
 		glColor3ubv(color);
 		glVertex2d(target.x, target.y);
-		//testing end
+		//printf("%d, %d\n", target.x, target.y);
 
 		glEnd();
+
+		//testing end
 	}
 			
 	glFlush();
@@ -138,4 +144,11 @@ void OriginalView::setView(int type)
 		m_pDoc->dissolveImage(10);
 	}*/
 	refresh();
+}
+
+void OriginalView::drawPointer(Point target)
+{
+	coord.x = target.x;
+	coord.y = target.y;
+	redraw();
 }

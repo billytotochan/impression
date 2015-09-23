@@ -8,7 +8,6 @@
 #define ORIGINALVIEW_H
 
 #include <FL/Fl.H>
-
 #include <FL/Fl_Gl_Window.H>
 #include <FL/gl.h>
 #include <GL/gl.h>
@@ -39,6 +38,8 @@ public:
 	void resizeWindow(int width, int height);
 
 	void setView(int type);
+
+	void drawPointer(Point target);
 
 	ImpressionistDoc*	m_pDoc;
 

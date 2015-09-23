@@ -249,7 +249,8 @@ int PaintView::handle(int event)
 		break;
 	case FL_MOVE:
 		coord.x = Fl::event_x();
-		coord.y = Fl::event_y();
+		coord.y = Fl::event_y(); 
+		m_pDoc->m_pUI->m_origView->drawPointer(coord);
 		break;
 	default:
 		return 0;
