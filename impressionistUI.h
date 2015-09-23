@@ -15,6 +15,7 @@
 #include <FL/Fl_Choice.H>
 #include <FL/Fl_Button.H>
 #include <FL/Fl_Light_Button.H>
+#include <FL/fl_Color_Chooser.H>	
 
 #include "Impressionist.h"
 #include "OriginalView.h"
@@ -95,10 +96,16 @@ public:
 	int					getBrushEdgeThreshold();
 	void				setBrushEdgeThreshold(int edgeThreshold);
 
-	// for color selector
 	Fl_Window*			m_colorSelector;
+	Fl_Color_Chooser*	m_colorChooser;
 
-	// for color selector
+	double				getColorRed();
+	void				setColorRed(double red);
+	double				getColorGreen();
+	void				setColorGreen(double green);
+	double				getColorBlue();
+	void				setColorBlue(double blue);
+
 	Fl_Window*			m_paintlyDialog;
 	Fl_Choice*			m_PaintlyStyleChoice;
 	Fl_Choice*			m_PaintlyStrokeChoice;
@@ -160,6 +167,9 @@ private:
 	int		m_nBrushSpacing;
 	bool	m_nBrushRandomSize;
 	int		m_nBrushEdgeThreshold;
+	double	m_nColorRed;
+	double	m_nColorGreen;
+	double	m_nColorBlue;
 	int		m_nPaintlyStyle;
 	int		m_nPaintlyStroke;
 	int		m_nPaintlyThreshold;
@@ -223,7 +233,7 @@ private:
 	static void	cb_original_image(Fl_Menu_* o, void* v);
 	static void	cb_edge_image(Fl_Menu_* o, void* v);
 	static void	cb_another_image(Fl_Menu_* o, void* v);
-
+	static void cb_colorChoose(Fl_Widget* o, void* v);
 };
 
 #endif

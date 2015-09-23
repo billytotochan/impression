@@ -388,6 +388,15 @@ void ImpressionistUI::cb_brushDoItButton(Fl_Widget* o, void* v)
 	pDoc->m_pUI->m_origView->setView(VIEW_TYPE::EDGE_VIEW);
 }
 
+void ImpressionistUI::cb_colorChoose(Fl_Widget* o, void* v)
+{
+	ImpressionistUI* pUI = ((ImpressionistUI *)(o->user_data()));
+	pUI->m_nColorRed = double(((Fl_Color_Chooser *)o)->r());
+	pUI->m_nColorGreen = double(((Fl_Color_Chooser *)o)->g());
+	pUI->m_nColorBlue = double(((Fl_Color_Chooser *)o)->b());
+	
+}
+
 void ImpressionistUI::cb_paintlyStyleChoice(Fl_Widget* o, void* v)
 {
 	ImpressionistUI* pUI = ((ImpressionistUI *)(o->user_data()));
@@ -671,6 +680,37 @@ void ImpressionistUI::setBrushEdgeThreshold(int edgeThreshold)
 	m_nBrushEdgeThreshold = edgeThreshold;
 }
 
+double ImpressionistUI::getColorRed()
+{
+	return m_nColorRed;
+}
+
+void ImpressionistUI::setColorRed(double red)
+{
+	m_nColorRed = red;
+}
+
+double ImpressionistUI::getColorGreen()
+{
+	return m_nColorGreen;
+}
+
+void ImpressionistUI::setColorGreen(double green)
+{
+	m_nColorGreen = green;
+}
+
+
+double ImpressionistUI::getColorBlue()
+{
+	return m_nColorBlue;
+}
+
+void ImpressionistUI::setColorBlue(double blue)
+{
+	m_nColorBlue = blue;
+}
+
 int ImpressionistUI::getPaintlyStroke()
 {
 	return m_nPaintlyStroke;
@@ -892,6 +932,9 @@ ImpressionistUI::ImpressionistUI() {
 	m_nBrushSpacing = 4;
 	m_nBrushRandomSize = true;
 	m_nBrushEdgeThreshold = 200;
+	m_nColorRed = 1.0f;
+	m_nColorGreen = 1.0f;
+	m_nColorBlue = 1.0f;
 	m_nPaintlyThreshold = 100;
 	m_nPaintlyCurvature = 1.00;
 	m_nPaintlyBlur = 0.50;
@@ -1031,6 +1074,10 @@ ImpressionistUI::ImpressionistUI() {
     m_brushDialog->end();	
 
 	m_colorSelector = new Fl_Window(400, 325, "Color Selector");
+		m_colorChooser = new Fl_Color_Chooser(0, 0, 250, 250, "Color Blending");
+		m_colorChooser->user_data((void *)(this));
+		m_colorChooser->rgb(1.0f, 1.0f, 1.0f);
+		m_colorChooser->callback(cb_colorChoose);
 	m_colorSelector->end();
 
 	m_paintlyDialog = new Fl_Window(400, 325, "Paintly Dialog");
