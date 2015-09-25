@@ -46,55 +46,29 @@ void ScatteredLineBrush::BrushMove(const Point source, const Point target)
 		float factorR = 0.3f;
 		float factorG = 0.6f;
 		float factorB = 0.11f;
+		
+		static const char gx[][3] = { { -1, 0, 1 }, { -2, 0, 2 }, { -1, 0, 1 } };
+		static const char gy[][3] = { { -1, -2, -1 }, { 0, 0, 0 }, { 1, 2, 1 } };
+		unsigned char color[3][3];
+		int gxSum = 0;
+		int gySum = 0;
 
-		int sobelX[3][3] = { { -1, -2, -1 },
-		{ 0, 0, 0 },
-		{ 1, 2, 1 } };
-
-		int sobelY[3][3] = { { -1, 0, 1 },
-		{ -2, 0, 2 },
-		{ -1, 0, 1 } };
-
-		GLubyte colorR[3][3], colorG[3][3], colorB[3][3];
-		float color[3][3];
-		int RGx = 0, RGy = 0, GGx = 0, GGy = 0, BGx = 0, BGy = 0;
-		float Gx = 0, Gy = 0;
-		for (int i = 0; i < 3; i++){
-			for (int j = 0; j < 3; j++){
-				Point temp(source.x + j - 1, source.y + i - 1);
-				GLubyte tempC[3];
-				memcpy(tempC, pDoc->GetOriginalPixel(temp), 3);
-				//colorR[i][j] = tempC[0];
-				//colorG[i][j] = tempC[1];
-				//colorB[i][j] = tempC[2];
-				color[i][j] = tempC[0] * factorR + tempC[1] * factorG + tempC[2] * factorB;
-				//printf("%d ,", colorR[i][j]);
-
-				//RGx += sobelX[i][j] * colorR[i][j];
-				//RGy += sobelY[i][j] * colorR[i][j];
-				//GGx += sobelX[i][j] * colorG[i][j];
-				//GGy += sobelY[i][j] * colorG[i][j];
-				//BGx += sobelX[i][j] * colorB[i][j];
-				//BGy += sobelY[i][j] * colorB[i][j];
-				Gx += sobelX[i][j] * color[i][j];
-				Gy += sobelY[i][j] * color[i][j];
-
+		gxSum = 0;
+		gySum = 0;
+		for (int i = 0; i < 3; i++)	{
+			for (int j = 0; j < 3; j++)	{
+				color[i][j] = (unsigned char)(pDoc->GetOriginalPixel(target.x - 1 + j, target.y - 1 + i)[0] * factorR +
+					pDoc->GetOriginalPixel(target.x - 1 + j, target.y - 1 + i)[1] * factorG +
+					pDoc->GetOriginalPixel(target.x - 1 + j, target.y - 1 + i)[2] * factorB
+					);
+				gxSum += color[i][j] * gx[i][j];
+				gySum += color[i][j] * gy[i][j];
 			}
 		}
-		float angle = 0;
-		//angle += atan2((float)RGy, (float)RGx) * 180 / M_PI + 180;
-		//angle += atan2((float)GGy, (float)GGx) * 180 / M_PI + 180;
-		//angle += atan2((float)BGy, (float)BGx) * 180 / M_PI + 180;
-		angle += atan2((float)Gy, (float)Gx) * 180 / M_PI;
-		m_lineAngle = angle;
-
-		//printf("%f ,", m_lineAngle);
-		//printf("%d ,%d \n", RGx, RGy);
-		//printf("%d ,%d \n", GGx, GGy);
-		//printf("%d ,%d \n", BGx, BGy);
+		m_lineAngle = atan2((float)gySum, (float)gxSum) * 180 / M_PI;
 
 	}
-	else if (m_brushType == STROKE_DIRECTION_BRUSH_DIRECTION){
+	if (m_brushType == STROKE_DIRECTION_BRUSH_DIRECTION){
 		m_lineAngle = pDoc->m_pUI->m_paintView->getBrushDirection();
 	}
 
