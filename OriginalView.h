@@ -25,6 +25,7 @@ typedef enum
 	EDGE_VIEW,
 	ANOTHER_VIEW,
 	DISSOLVE_VIEW,
+	BLUR_VIEW
 }  VIEW_TYPE;
 
 class OriginalView : public Fl_Gl_Window

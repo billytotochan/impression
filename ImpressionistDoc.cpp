@@ -36,6 +36,7 @@ ImpressionistDoc::ImpressionistDoc()
 	m_ucEdgeImage = NULL;
 	m_ucAnotherImage = NULL;
 	m_ucDissolveImage = NULL;
+	m_ucBlurImage = NULL;
 
 	// create one instance of each brush
 	ImpBrush::c_nBrushCount = NUM_BRUSH_TYPE;
@@ -127,6 +128,7 @@ int ImpressionistDoc::loadImage(char *iname)
 	if (m_ucEdgeImage) delete[] m_ucEdgeImage;
 	if (m_ucAnotherImage) delete[] m_ucAnotherImage;
 	if (m_ucDissolveImage) delete[] m_ucDissolveImage;
+	if (m_ucBlurImage) delete[] m_ucBlurImage;
 
 	m_ucBitmap = data;
 
@@ -135,6 +137,7 @@ int ImpressionistDoc::loadImage(char *iname)
 	m_ucEdgeImage = new unsigned char[width*height * 3];
 	m_ucAnotherImage = new unsigned char[width*height * 3];
 	m_ucDissolveImage = new unsigned char[width*height * 3];
+	m_ucBlurImage = new unsigned char[width*height * 3];
 	memset(m_ucPainting, 0, width*height*3);
 
 	m_pUI->m_mainWindow->resize(m_pUI->m_mainWindow->x(), 
@@ -143,6 +146,7 @@ int ImpressionistDoc::loadImage(char *iname)
 								height+25);
 
 	edgeView();
+	blurView();
 	anotherView();
 	m_pUI->m_origView->setView(VIEW_TYPE::ORIGINAL_VIEW);
 
@@ -243,17 +247,27 @@ int ImpressionistDoc::loadDissolveImage(char *iname)
 {
 	unsigned char*	data;
 	int				width,
-					height;
+		height;
 
 	if ((data = readBMP(iname, width, height)) == NULL)
 	{
 		fl_alert("Can't load bitmap file");
 		return 0;
 	}
-	dissolveView( data, width, height);
+	dissolveView(data, width, height);
 	m_pUI->m_origView->setView(VIEW_TYPE::DISSOLVE_VIEW);
 	return (1);
 }
+
+int ImpressionistDoc::loadBlurImage(char *iname)
+{
+	if (loadImage(iname)) {
+		blurView();
+		m_pUI->m_origView->setView(VIEW_TYPE::BLUR_VIEW);
+		return (1);
+	}
+}
+
 
 void ImpressionistDoc::edgeView()
 {
@@ -325,4 +339,53 @@ void ImpressionistDoc::dissolveView( unsigned char* src, int width, int height)
 	}
 	printf(" %d, %d\n", m_nWidth * m_nHeight, width * height);
 	
+}
+
+void ImpressionistDoc::blurView()
+{
+	if (!m_ucBitmap) return;
+
+	/*unsigned char* temp = NULL;
+	temp = new unsigned char[m_nWidth*m_nHeight * 3];
+	for (int i = 0; i < m_nWidth*m_nHeight; i++) {
+		unsigned char r, g, b, lum;
+
+		for (int j = 0; j < 3; j++) {
+			switch (j)
+			{
+			case 0:
+				r = m_ucBitmap[i * 3 + j];
+				break;
+			case 1:
+				g = m_ucBitmap[i * 3 + j];
+				break;
+			case 2:
+				b = m_ucBitmap[i * 3 + j];
+				break;
+			}
+		}
+		lum = (r*0.30) + (g*0.59) + (b*0.11);
+		for (int j = 0; j < 3; j++)	{
+			temp[i * 3 + j] = lum;
+		}
+	}*/
+
+	for (int j = 1; j < m_nHeight - 1; j++) {
+		for (int i = 1; i < m_nWidth - 1; i++) {
+			double sum = 0;
+			for (int l = 0; l < 3; l++) {
+				for (int k = 0; k < 3; k++) {
+					int x = i - 1 + k;
+					int y = j - 1 + l;
+
+					sum += m_ucBitmap[(x + y*m_nWidth) * 3];
+				}
+			}
+			unsigned char blurVal = sum / 25;
+
+			for (int m = 0; m < 3; m++){
+				m_ucBlurImage[(i + j*m_nWidth) * 3 + m] = blurVal;
+			}
+		}
+	}
 }

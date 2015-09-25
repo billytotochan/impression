@@ -512,6 +512,16 @@ void ImpressionistUI::cb_load_another_image(Fl_Menu_* o, void* v)
 	}
 }
 
+void ImpressionistUI::cb_load_blur_image(Fl_Menu_* o, void* v)
+{
+	ImpressionistDoc *pDoc = whoami(o)->getDocument();
+	// TODO
+	char* newfile = fl_file_chooser("Open File?", "*.bmp", pDoc->getImageName());
+	if (newfile != NULL) {
+		pDoc->loadBlurImage(newfile);
+	}
+}
+
 void ImpressionistUI::cb_original_image(Fl_Menu_* o, void* v)
 {
 	whoami(o)->m_origView->setView(VIEW_TYPE::ORIGINAL_VIEW);
@@ -530,6 +540,11 @@ void ImpressionistUI::cb_dissolve_image(Fl_Menu_* o, void* v)
 	if (newfile != NULL) {
 		pDoc->loadDissolveImage(newfile);
 	}
+}
+
+void ImpressionistUI::cb_blur_image(Fl_Menu_* o, void* v)
+{
+	whoami(o)->m_origView->setView(VIEW_TYPE::BLUR_VIEW);
 }
 
 //---------------------------------- per instance functions --------------------------------------
@@ -843,6 +858,7 @@ Fl_Menu_Item ImpressionistUI::menuitems[] = {
 		{ "&Colors", FL_ALT + 'k', (Fl_Callback *)ImpressionistUI::cb_colors },
 		{ "&Paintly", FL_ALT + 'p', (Fl_Callback *)ImpressionistUI::cb_paintly, 0, FL_MENU_DIVIDER },
 		{ "Load Edge Image...", FL_ALT + 'e', (Fl_Callback *)ImpressionistUI::cb_load_edge_image },
+		{ "Load Blur Image...", FL_ALT + 'b', (Fl_Callback *)ImpressionistUI::cb_load_blur_image },
 		{ "Load Another Image...", FL_ALT + 'a', (Fl_Callback *)ImpressionistUI::cb_load_another_image, 0, FL_MENU_DIVIDER },
 		{ "&Quit",			FL_ALT + 'q', (Fl_Callback *)ImpressionistUI::cb_exit },
 		{ 0 },
@@ -852,6 +868,7 @@ Fl_Menu_Item ImpressionistUI::menuitems[] = {
 		{ "&Edge Image", FL_ALT + 'e', (Fl_Callback *)ImpressionistUI::cb_edge_image },
 		{ "&Another Image", FL_ALT + 'a', (Fl_Callback *)ImpressionistUI::cb_about },
 		{ "&Dissolve Image", FL_ALT + 'd', (Fl_Callback *)ImpressionistUI::cb_dissolve_image },
+		{ "&Blur Image", FL_ALT + 'b', (Fl_Callback *)ImpressionistUI::cb_blur_image },
 		{ 0 },
 
 	{ "&Options", 0, 0, 0, FL_SUBMENU },

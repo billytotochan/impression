@@ -58,6 +58,9 @@ void OriginalView::draw()
 	case DISSOLVE_VIEW:
 		to_load = m_pDoc->m_ucDissolveImage;
 		break;
+	case BLUR_VIEW:
+		to_load = m_pDoc->m_ucBlurImage;
+		break;
 	default:
 		to_load = m_pDoc->m_ucBitmap;
 		break;
