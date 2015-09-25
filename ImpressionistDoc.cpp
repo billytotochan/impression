@@ -278,7 +278,7 @@ void ImpressionistDoc::edgeView()
 	int gxSum = 0;
 	int gySum = 0;
 
-	for (int x = 0; x < m_nPaintWidth; x++)	{
+	for (int x = 0; x < m_nWidth; x++)	{
 		for (int y = 0; y < m_nHeight; y++)	{
 			gxSum = 0;
 			gySum = 0;
@@ -345,38 +345,13 @@ void ImpressionistDoc::blurView()
 {
 	if (!m_ucBitmap) return;
 
-	/*unsigned char* temp = NULL;
-	temp = new unsigned char[m_nWidth*m_nHeight * 3];
-	for (int i = 0; i < m_nWidth*m_nHeight; i++) {
-		unsigned char r, g, b, lum;
-
-		for (int j = 0; j < 3; j++) {
-			switch (j)
-			{
-			case 0:
-				r = m_ucBitmap[i * 3 + j];
-				break;
-			case 1:
-				g = m_ucBitmap[i * 3 + j];
-				break;
-			case 2:
-				b = m_ucBitmap[i * 3 + j];
-				break;
-			}
-		}
-		lum = (r*0.30) + (g*0.59) + (b*0.11);
-		for (int j = 0; j < 3; j++)	{
-			temp[i * 3 + j] = lum;
-		}
-	}*/
-
-	for (int j = 1; j < m_nHeight - 1; j++) {
-		for (int i = 1; i < m_nWidth - 1; i++) {
+	for (int i = 1; i < m_nWidth - 1; i++) {
+		for (int j = 1; j < m_nHeight - 1; j++) {
 			double sum = 0;
-			for (int l = 0; l < 3; l++) {
-				for (int k = 0; k < 3; k++) {
-					int x = i - 1 + k;
-					int y = j - 1 + l;
+			for (int k = 0; k < 3; k++) {
+				for (int l = 0; l < 3; l++) {
+					int x = i - 1 + l;
+					int y = j - 1 + k;
 
 					sum += m_ucBitmap[(x + y*m_nWidth) * 3];
 				}
