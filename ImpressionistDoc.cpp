@@ -345,21 +345,21 @@ void ImpressionistDoc::blurView()
 {
 	if (!m_ucBitmap) return;
 
-	for (int i = 1; i < m_nWidth - 1; i++) {
-		for (int j = 1; j < m_nHeight - 1; j++) {
+	for (int x = 1; x < m_nWidth - 1; x++) {
+		for (int y = 1; y < m_nHeight - 1; y++) {
 			double sum = 0;
-			for (int k = 0; k < 3; k++) {
-				for (int l = 0; l < 3; l++) {
-					int x = i - 1 + l;
-					int y = j - 1 + k;
+			for (int i = 0; i < 3; i++) {
+				for (int j = 0; j < 3; j++) {
+					int newX = x - 1 + j;
+					int newY = y - 1 + i;
 
-					sum += m_ucBitmap[(x + y*m_nWidth) * 3];
+					sum += m_ucBitmap[(newX + newY *m_nWidth) * 3];
 				}
 			}
-			unsigned char blurVal = sum / 25;
+			unsigned char blur = sum / 9;
 
 			for (int m = 0; m < 3; m++){
-				m_ucBlurImage[(i + j*m_nWidth) * 3 + m] = blurVal;
+				m_ucBlurImage[(x + y * m_nWidth) * 3 + m] = blur;
 			}
 		}
 	}
