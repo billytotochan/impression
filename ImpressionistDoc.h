@@ -37,6 +37,8 @@ public:
 	void	dissolveView( unsigned char * src, int width, int height);
 	void	blurView();
 
+	void applyCustomFilter( unsigned char* src, int width, int height, int** matrix, int matrixWidth, int matrixHeight, int normalize);
+
 // Attributes
 public:
 	// Dimensions of original window.

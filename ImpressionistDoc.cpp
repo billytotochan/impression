@@ -364,3 +364,31 @@ void ImpressionistDoc::blurView()
 		}
 	}
 }
+
+void ImpressionistDoc::applyCustomFilter(unsigned char* data, int width, int height, int** matrix, int matrixWidth, int matrixHeight, int normalize)
+{
+	printf("%d", matrixWidth/2);
+	for (int i = 0; i < height; i++){
+		for (int j = 0; j < width; j++){
+			int colorR = 0;
+			int colorG = 0;
+			int colorB = 0;
+
+			for (int m = 0; m < matrixHeight; m++){
+				for (int n = 0; n < matrixWidth; n++){
+					colorR += (GetOriginalPixel(j - matrixWidth / 2 + n, i - matrixHeight / 2 + m)[0] * matrix[m][n]);
+					colorG += (GetOriginalPixel(j - matrixWidth / 2 + n, i - matrixHeight / 2 + m)[1] * matrix[m][n]);
+					colorB += (GetOriginalPixel(j - matrixWidth / 2 + n, i - matrixHeight / 2 + m)[2] * matrix[m][n]);
+					//printf("hi");
+				}
+			}
+			data[3 * (i * width + j)] = (unsigned char)(colorR / normalize < 0 ? 0 : colorR / normalize);
+			data[3 * (i * width + j) + 1] = (unsigned char)(colorG / normalize < 0 ? 0 : colorG / normalize);
+			data[3 * (i * width + j) + 2] = (unsigned char)(colorB / normalize < 0 ? 0 : colorB / normalize);
+			printf("%d, %d, %d\n", data[3 * (i * width + j)], data[3 * (i * width + j) + 1], data[3 * (i * width + j) + 2]);
+
+		}
+		printf("hi");
+	}
+	m_pUI->m_paintView->refresh();
+}

@@ -210,6 +210,11 @@ void ImpressionistUI::cb_colors(Fl_Menu_* o, void* v)
 	whoami(o)->m_colorSelector->show();
 }
 
+void ImpressionistUI::cb_custom_filter(Fl_Menu_* o, void* v)
+{
+	whoami(o)->m_customFilterDialog->show();
+}
+
 void ImpressionistUI::cb_paintly(Fl_Menu_* o, void* v)
 {
 	whoami(o)->m_paintlyDialog->show();
@@ -242,6 +247,7 @@ void ImpressionistUI::cb_exit(Fl_Menu_* o, void* v)
 	whoami(o)->m_mainWindow->hide();
 	whoami(o)->m_brushDialog->hide();
 	whoami(o)->m_colorSelector->hide();
+	whoami(o)->m_customFilterDialog->hide();
 	whoami(o)->m_paintlyDialog->hide();
 
 }
@@ -396,6 +402,81 @@ void ImpressionistUI::cb_colorChoose(Fl_Widget* o, void* v)
 	pUI->m_nColorBlue = double(((Fl_Color_Chooser *)o)->b());
 	
 }
+
+void ImpressionistUI::cb_custom_filter_button(Fl_Widget* o, void* v)
+{
+	ImpressionistUI* pUI = ((ImpressionistUI*)(o->user_data()));
+	ImpressionistDoc* pDoc = pUI->getDocument();
+
+	pUI->m_nMatrixWidth = atoi( pUI->m_matrixWidth->value());
+	pUI->m_nMatrixHeight = atoi(pUI->m_matrixHeight->value());
+
+	if (pUI->m_nMatrixWidth <= 0 || pUI->m_nMatrixHeight <= 0){
+		fl_message("Please enter positive integers");
+		return;
+	}
+	else{
+		pUI->m_customFilterDialog->hide();
+		pUI->m_customMatrixDialog = new Fl_Window(pUI->m_nMatrixWidth * 50 + 100, pUI->m_nMatrixHeight * 40 + 40, "Matrix");
+		while ( !pUI->m_matrixValuesInput.empty()){
+			pUI->m_matrixValuesInput.pop();
+		}
+		for (int i = 0; i < pUI->m_nMatrixHeight; i++){
+			for (int j = 0; j < pUI->m_nMatrixWidth; j++){
+				Fl_Int_Input*  input = new Fl_Int_Input( 10 + j*50, 10 + i*40, 30, 20, "" );
+				input->value("1");
+				pUI->m_matrixValuesInput.push(input);
+			}
+		}
+		pUI->m_customMatrixButton = new Fl_Button(pUI->m_nMatrixWidth * 50 + 50, pUI->m_nMatrixHeight * 40 + 10, 40, 20, "Apply");
+		pUI->m_customMatrixButton->user_data((void *)(pUI));
+		pUI->m_customMatrixButton->callback(cb_apply_custom_filter);
+
+		pUI->m_customNormalizeButton = new Fl_Light_Button(0, pUI->m_nMatrixHeight * 40 + 10, 80, 20, "Normalize");
+		pUI->m_customNormalizeButton->user_data((void *)(pUI));
+		pUI->m_customNormalizeButton->value(pUI->m_nNormalize);
+		pUI->m_customNormalizeButton->callback(cb_normalize_matrix);
+
+		pUI->m_customMatrixDialog->end();
+		pUI->m_customMatrixDialog->show();
+	}
+	
+}
+
+void ImpressionistUI::cb_apply_custom_filter(Fl_Widget* o, void* v)
+{
+	ImpressionistUI* pUI = ((ImpressionistUI*)(o->user_data()));
+	ImpressionistDoc* pDoc = pUI->getDocument();
+
+	int normalize = 0;
+
+	pUI->m_nMatrix = new int*[pUI->m_nMatrixHeight];
+	for (int i = 0; i < pUI->m_nMatrixHeight; i++){
+		pUI->m_nMatrix[i] = new int[pUI->m_nMatrixWidth];
+		for (int j = 0; j < pUI->m_nMatrixWidth; j++){
+			pUI->m_nMatrix[i][j] = atoi( pUI->m_matrixValuesInput.front()->value());
+			pUI->m_matrixValuesInput.push(pUI->m_matrixValuesInput.front());
+			pUI->m_matrixValuesInput.pop();
+			printf("%d", pUI->m_nMatrix[i][j]);
+			normalize += pUI->m_nMatrix[i][j];
+		}
+	}
+
+	if (pUI->m_nNormalize && normalize != 0){
+		pDoc->applyCustomFilter(pDoc->m_ucPainting, pDoc->m_nWidth, pDoc->m_nHeight, pUI->m_nMatrix, pUI->m_nMatrixWidth, pUI->m_nMatrixHeight, normalize);
+	}
+	else{
+		pDoc->applyCustomFilter(pDoc->m_ucPainting, pDoc->m_nWidth, pDoc->m_nHeight, pUI->m_nMatrix, pUI->m_nMatrixWidth, pUI->m_nMatrixHeight, 1);
+	}
+
+}
+
+void ImpressionistUI::cb_normalize_matrix(Fl_Widget* o, void* v)
+{
+	((ImpressionistUI*)(o->user_data()))->m_nNormalize = (((Fl_Light_Button *)o)->value());
+}
+
+
 
 void ImpressionistUI::cb_paintlyStyleChoice(Fl_Widget* o, void* v)
 {
@@ -736,6 +817,26 @@ void ImpressionistUI::setColorBlue(double blue)
 	m_nColorBlue = blue;
 }
 
+int ImpressionistUI::getMatrixWidth()
+{
+	return m_nMatrixWidth;
+}
+
+void ImpressionistUI::setMatrixWidth(int w)
+{
+	m_nMatrixWidth = w;
+}
+
+int ImpressionistUI::getMatrixHeight()
+{
+	return m_nMatrixHeight;
+}
+
+void ImpressionistUI::setMatrixHeight(int h)
+{
+	m_nMatrixHeight = h;
+}
+
 int ImpressionistUI::getPaintlyStroke()
 {
 	return m_nPaintlyStroke;
@@ -856,6 +957,7 @@ Fl_Menu_Item ImpressionistUI::menuitems[] = {
 		{ "&Undo", FL_ALT + 'z', (Fl_Callback *)ImpressionistUI::cb_undo },
 		{ "&Clear Canvas",	FL_ALT + 'c', (Fl_Callback *)ImpressionistUI::cb_clear_canvas, 0, FL_MENU_DIVIDER },
 		{ "&Colors", FL_ALT + 'k', (Fl_Callback *)ImpressionistUI::cb_colors },
+		{ "&Custom Filter", FL_ALT + 'l', (Fl_Callback *)ImpressionistUI::cb_custom_filter },
 		{ "&Paintly", FL_ALT + 'p', (Fl_Callback *)ImpressionistUI::cb_paintly, 0, FL_MENU_DIVIDER },
 		{ "Load Edge Image...", FL_ALT + 'e', (Fl_Callback *)ImpressionistUI::cb_load_edge_image },
 		{ "Load Blur Image...", FL_ALT + 'b', (Fl_Callback *)ImpressionistUI::cb_load_blur_image },
@@ -972,6 +1074,9 @@ ImpressionistUI::ImpressionistUI() {
 	m_nPaintlyAlpha = 1.00;
 	m_nPaintlyLayer = 3;
 	m_nPaintlyR0Level = 3;
+	m_nMatrixWidth = 1;
+	m_nMatrixHeight = 1;
+	m_nNormalize = 0;
 
 	// brush dialog definition
 	m_brushDialog = new Fl_Window(400, 325, "Brush Dialog");
@@ -1107,6 +1212,22 @@ ImpressionistUI::ImpressionistUI() {
 		m_colorChooser->rgb(1.0f, 1.0f, 1.0f);
 		m_colorChooser->callback(cb_colorChoose);
 	m_colorSelector->end();
+
+	m_customFilterDialog = new Fl_Window(200, 120, "Custom Filter");
+
+		m_matrixWidth = new Fl_Int_Input(75, 20, 30, 20, "Width");
+		m_matrixWidth->user_data((void*)(this));   // record self to be used by static callback functions
+		m_matrixWidth->value("1");
+
+		m_matrixHeight = new Fl_Int_Input(75, 50, 30, 20, "Height");
+		m_matrixHeight->user_data((void*)(this));   // record self to be used by static callback functions
+		m_matrixHeight->value("1");
+
+		m_customFilterButton = new Fl_Button(120, 80, 50, 20, "Next");
+		m_customFilterButton->user_data((void*)(this));   // record self to be used by static callback functions
+		m_customFilterButton->callback(cb_custom_filter_button);
+
+	m_customFilterDialog->end();
 
 	m_paintlyDialog = new Fl_Window(400, 325, "Paintly Dialog");
 

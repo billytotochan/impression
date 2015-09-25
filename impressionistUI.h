@@ -16,6 +16,9 @@
 #include <FL/Fl_Button.H>
 #include <FL/Fl_Light_Button.H>
 #include <FL/fl_Color_Chooser.H>	
+#include <FL/fl_Int_input.H>
+
+#include <queue>
 
 #include "Impressionist.h"
 #include "OriginalView.h"
@@ -106,6 +109,21 @@ public:
 	double				getColorBlue();
 	void				setColorBlue(double blue);
 
+	Fl_Window*			m_customFilterDialog;
+	Fl_Int_Input*		m_matrixWidth;
+	Fl_Int_Input*		m_matrixHeight;
+	Fl_Button*			m_customFilterButton;
+
+	int					getMatrixWidth();
+	void				setMatrixWidth(int w);
+	int					getMatrixHeight();
+	void				setMatrixHeight(int h);
+
+	Fl_Window*			m_customMatrixDialog;
+	Fl_Button*			m_customMatrixButton;
+	Fl_Light_Button*	m_customNormalizeButton;
+	std::queue< Fl_Int_Input* > m_matrixValuesInput;
+
 	Fl_Window*			m_paintlyDialog;
 	Fl_Choice*			m_PaintlyStyleChoice;
 	Fl_Choice*			m_PaintlyStrokeChoice;
@@ -170,6 +188,9 @@ private:
 	double	m_nColorRed;
 	double	m_nColorGreen;
 	double	m_nColorBlue;
+	int		m_nMatrixWidth;
+	int		m_nMatrixHeight;
+	int		m_nNormalize;
 	int		m_nPaintlyStyle;
 	int		m_nPaintlyStroke;
 	int		m_nPaintlyThreshold;
@@ -181,6 +202,7 @@ private:
 	float	m_nPaintlyAlpha;
 	int		m_nPaintlyLayer;
 	int		m_nPaintlyR0Level;
+	int**	m_nMatrix;
 
 	// Static class members
 	static Fl_Menu_Item		menuitems[];
@@ -199,12 +221,18 @@ private:
 	static void cb_undo(Fl_Menu_* o, void* v);
 	static void	cb_clear_canvas(Fl_Menu_* o, void* v);
 	static void	cb_colors(Fl_Menu_* o, void* v);
+	static void cb_custom_filter(Fl_Menu_* o, void* v);
 	static void	cb_paintly(Fl_Menu_* o, void* v);
 	static void	cb_exit(Fl_Menu_* o, void* v);
 	static void	cb_about(Fl_Menu_* o, void* v);
 	static void	cb_brushChoice(Fl_Widget* o, void* v);
 	static void	cb_brushStrokeDirectionChoice(Fl_Widget* o, void* v);
 	static void	cb_clear_canvas_button(Fl_Widget* o, void* v);
+	static void cb_matrix_width(Fl_Widget* o, void* v);
+	static void cb_matrix_height(Fl_Widget* o, void* v);
+	static void cb_custom_filter_button(Fl_Widget* o, void* v);
+	static void cb_apply_custom_filter(Fl_Widget* o, void* v);
+	static void cb_normalize_matrix(Fl_Widget* o, void* v);
 	static void	cb_brushSizeSlides(Fl_Widget* o, void* v);
 	static void	cb_brushLineWidthSlides(Fl_Widget* o, void* v);
 	static void	cb_brushLineAngleSlides(Fl_Widget* o, void* v);
