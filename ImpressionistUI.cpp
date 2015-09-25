@@ -457,7 +457,7 @@ void ImpressionistUI::cb_apply_custom_filter(Fl_Widget* o, void* v)
 			pUI->m_nMatrix[i][j] = atoi( pUI->m_matrixValuesInput.front()->value());
 			pUI->m_matrixValuesInput.push(pUI->m_matrixValuesInput.front());
 			pUI->m_matrixValuesInput.pop();
-			printf("%d", pUI->m_nMatrix[i][j]);
+			//printf("%d", pUI->m_nMatrix[i][j]);
 			normalize += pUI->m_nMatrix[i][j];
 		}
 	}
