@@ -347,20 +347,24 @@ void ImpressionistDoc::blurView()
 
 	for (int x = 1; x < m_nWidth - 1; x++) {
 		for (int y = 1; y < m_nHeight - 1; y++) {
-			double sum = 0;
+			double sumR = 0;
+			double sumG = 0;
+			double sumB = 0;
 			for (int i = 0; i < 3; i++) {
 				for (int j = 0; j < 3; j++) {
 					int newX = x - 1 + j;
 					int newY = y - 1 + i;
 
-					sum += m_ucBitmap[(newX + newY *m_nWidth) * 3];
+					sumR += m_ucBitmap[(newX + newY *m_nWidth) * 3];
+					sumG += m_ucBitmap[(newX + newY *m_nWidth) * 3 + 1];
+					sumB += m_ucBitmap[(newX + newY *m_nWidth) * 3 + 2];
 				}
 			}
-			unsigned char blur = sum / 9;
 
-			for (int m = 0; m < 3; m++){
-				m_ucBlurImage[(x + y * m_nWidth) * 3 + m] = blur;
-			}
+			m_ucBlurImage[(x + y * m_nWidth) * 3] = (unsigned char)sumR / 9 < 0 ? 0 : sumR / 9;
+			m_ucBlurImage[(x + y * m_nWidth) * 3 + 1] = (unsigned char)sumG / 9 < 0 ? 0 : sumG / 9;
+			m_ucBlurImage[(x + y * m_nWidth) * 3 + 2] = (unsigned char)sumB / 9 < 0 ? 0 : sumB / 9;
+
 		}
 	}
 }
