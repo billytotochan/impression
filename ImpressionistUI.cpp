@@ -289,7 +289,9 @@ void ImpressionistUI::cb_brushChoice(Fl_Widget* o, void* v)
 		pUI->m_BrushAnotherGradientLightButton->deactivate();
 		break;
 	case BRUSH_TRIANGLES:
+	case BRUSH_RHOMBUS:
 	case BRUSH_SCATTERED_TRIANGLES:
+	case BRUSH_SCATTERED_RHOMBUS:
 		pUI->m_BrushLineWidthSlider->deactivate();
 		pUI->m_BrushLineAngleSlider->activate();
 		pUI->m_BrushStrokeDirectionChoice->deactivate();
@@ -994,7 +996,9 @@ Fl_Menu_Item ImpressionistUI::brushTypeMenu[NUM_BRUSH_TYPE + 1] = {
 	{ "Scattered Lines", FL_ALT + 'm', (Fl_Callback *)ImpressionistUI::cb_brushChoice, (void *)BRUSH_SCATTERED_LINES },
 	{ "Scattered Circles", FL_ALT + 'd', (Fl_Callback *)ImpressionistUI::cb_brushChoice, (void *)BRUSH_SCATTERED_CIRCLES },
 	{ "Triangles", FL_ALT + 't', (Fl_Callback *)ImpressionistUI::cb_brushChoice, (void *)BRUSH_TRIANGLES },
+	{ "Rhombus", FL_ALT + 'r', (Fl_Callback *)ImpressionistUI::cb_brushChoice, (void *)BRUSH_RHOMBUS },
 	{ "Scattered Triangles", FL_ALT + 'u', (Fl_Callback *)ImpressionistUI::cb_brushChoice, (void *)BRUSH_SCATTERED_TRIANGLES },
+	{ "Scattered Rhombus", FL_ALT + 's', (Fl_Callback *)ImpressionistUI::cb_brushChoice, (void *)BRUSH_SCATTERED_RHOMBUS },
 	{ 0 }
 };
 
